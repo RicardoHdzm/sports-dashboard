@@ -292,7 +292,7 @@ async function main() {
   html { background: var(--bg); }
   body {
     font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-    margin: 0; padding: 2rem 1rem 4rem; color: var(--text);
+    margin: 0; padding: 5rem 1rem 4rem; color: var(--text);
     background-color: var(--bg);
     background-image:
       repeating-linear-gradient(135deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 14px);
@@ -307,6 +307,7 @@ async function main() {
   .brand-sub {
     display: block; margin-top: .6rem; font-size: 1rem; letter-spacing: .35em;
     color: #fff; padding-left: .35em;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; font-weight: 300;
   }
   h1::after {
     content: ""; display: block; width: 160px; height: 4px; margin: .8rem auto 0;
