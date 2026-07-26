@@ -9,6 +9,7 @@ const TEAMS = [
     logo: "assets/teams/real-madrid.webp",
     color: "#ffffff",
     badgeTextColor: "#111111",
+    badgeLabel: "LALIGA",
     competitions: [
       { path: "soccer/esp.1", name: "LaLiga" },
       { path: "soccer/uefa.champions", name: "Champions League" },
@@ -236,7 +237,7 @@ async function buildTeamCard(team) {
     <div class="card-header">
       <img class="logo" src="${team.logo}" alt="${team.name}" />
       <h2>${team.name}</h2>
-      <span class="league">${team.competitions.map((c) => c.name).join(" · ")}</span>
+      <span class="league">${team.badgeLabel || team.competitions.map((c) => c.name).join(" · ")}</span>
     </div>
     <h3>Tabla de posiciones</h3>
     ${standingsHtml}
@@ -288,9 +289,7 @@ async function main() {
     margin: 0; padding: 2rem 1rem 4rem; color: var(--text);
     background-color: var(--bg);
     background-image:
-      radial-gradient(ellipse 900px 500px at 50% -10%, rgba(59,130,246,0.16) 0%, transparent 65%),
-      repeating-linear-gradient(135deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 14px),
-      radial-gradient(circle at 50% 100%, rgba(0,0,0,0.5) 0%, transparent 60%);
+      repeating-linear-gradient(135deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 14px);
     background-attachment: fixed;
     min-height: 100vh;
   }
@@ -311,7 +310,7 @@ async function main() {
     border-top: 5px solid var(--team-color);
     border-radius: 12px;
     padding: 1.5rem;
-    box-shadow: 0 14px 32px -18px var(--team-color), 0 4px 12px rgba(0,0,0,0.5);
+    box-shadow: 0 6px 14px -10px var(--team-color), 0 4px 12px rgba(0,0,0,0.5);
   }
   .card-header { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 1.25rem; }
   .logo { width: 88px; height: 88px; object-fit: contain; margin-bottom: .6rem; }
