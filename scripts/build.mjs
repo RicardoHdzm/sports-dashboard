@@ -273,6 +273,9 @@ async function main() {
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Stricke Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet" />
 <style>
   :root {
     color-scheme: dark;
@@ -296,11 +299,18 @@ async function main() {
     background-attachment: fixed;
     min-height: 100vh;
   }
-  h1 { text-align: center; margin: 0 0 .4rem; }
-  .site-logo { width: 110px; height: 110px; object-fit: contain; }
+  h1 { text-align: center; margin: 0 0 .4rem; line-height: 1; }
+  .brand { display: inline-block; font-family: "Anton", "Arial Black", sans-serif; transform: skewX(-8deg); }
+  .brand-main {
+    display: block; font-size: 3.2rem; letter-spacing: .02em; color: #fff;
+  }
+  .brand-sub {
+    display: block; margin-top: -.3rem; font-size: 1rem; letter-spacing: .35em;
+    color: #fff; padding-left: .35em;
+  }
   h1::after {
     content: ""; display: block; width: 160px; height: 4px; margin: .8rem auto 0;
-    background: var(--team-gradient); border-radius: 999px;
+    background: #ffffff; border-radius: 999px;
   }
   .updated { text-align: center; color: var(--muted); font-size: .85rem; margin: .9rem 0 1.25rem; }
   .sort-bar { display: flex; justify-content: center; gap: .5rem; margin-bottom: 2rem; }
@@ -367,8 +377,11 @@ async function main() {
 </style>
 </head>
 <body>
-  <h1 style="--team-gradient: linear-gradient(90deg, ${TEAMS.map((t) => t.color).join(", ")})">
-    <img class="site-logo" src="assets/logo/logo.png" alt="Stricke Out" />
+  <h1>
+    <span class="brand">
+      <span class="brand-main">STRICKEOUT</span>
+      <span class="brand-sub">SPORTS DASHBOARD</span>
+    </span>
   </h1>
   <p class="updated">Actualizado: ${updatedAt}</p>
   <div class="sort-bar">
@@ -408,7 +421,6 @@ async function main() {
   await fs.mkdir("docs", { recursive: true });
   await fs.writeFile("docs/index.html", html, "utf8");
   await fs.cp("assets/teams", "docs/assets/teams", { recursive: true });
-  await fs.cp("assets/logo", "docs/assets/logo", { recursive: true });
   console.log("docs/index.html y assets generados.");
 }
 
