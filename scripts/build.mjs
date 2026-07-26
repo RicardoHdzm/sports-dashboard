@@ -296,15 +296,11 @@ async function main() {
     background-attachment: fixed;
     min-height: 100vh;
   }
-  h1 {
-    text-align: center; margin: 0 0 .4rem; text-transform: uppercase; letter-spacing: .12em; font-size: 1.9rem;
-    font-weight: 900; background: linear-gradient(135deg, #fff, #9ca3af);
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-  }
-  h1 .rick { color: #eab308; }
+  h1 { text-align: center; margin: 0 0 .4rem; }
+  .site-logo { width: 110px; height: 110px; object-fit: contain; }
   h1::after {
-    content: ""; display: block; width: 64px; height: 4px; margin: .6rem auto 0;
-    background: linear-gradient(90deg, #3b82f6, #eab308, #ef4444); border-radius: 999px;
+    content: ""; display: block; width: 160px; height: 4px; margin: .8rem auto 0;
+    background: var(--team-gradient); border-radius: 999px;
   }
   .updated { text-align: center; color: var(--muted); font-size: .85rem; margin: .9rem 0 1.25rem; }
   .sort-bar { display: flex; justify-content: center; gap: .5rem; margin-bottom: 2rem; }
@@ -313,7 +309,7 @@ async function main() {
     color: var(--muted); background: rgba(255,255,255,0.05); border: 1px solid var(--card-border);
     border-radius: 999px; padding: .4rem 1.1rem; cursor: pointer;
   }
-  .sort-btn.active { color: #0a0a0b; background: #eab308; border-color: #eab308; }
+  .sort-btn.active { color: #0a0a0b; background: #ffffff; border-color: #ffffff; }
   .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem; max-width: 1200px; margin: 0 auto; }
   .card {
     background: var(--card-bg);
@@ -371,7 +367,9 @@ async function main() {
 </style>
 </head>
 <body>
-  <h1>ST<span class="rick">RICK</span>E OUT</h1>
+  <h1 style="--team-gradient: linear-gradient(90deg, ${TEAMS.map((t) => t.color).join(", ")})">
+    <img class="site-logo" src="assets/logo/logo.png" alt="Stricke Out" />
+  </h1>
   <p class="updated">Actualizado: ${updatedAt}</p>
   <div class="sort-bar">
     <button class="sort-btn active" data-sort="deporte">Deporte</button>
@@ -410,7 +408,8 @@ async function main() {
   await fs.mkdir("docs", { recursive: true });
   await fs.writeFile("docs/index.html", html, "utf8");
   await fs.cp("assets/teams", "docs/assets/teams", { recursive: true });
-  console.log("docs/index.html y docs/assets/teams generados.");
+  await fs.cp("assets/logo", "docs/assets/logo", { recursive: true });
+  console.log("docs/index.html y assets generados.");
 }
 
 main().catch((err) => {
