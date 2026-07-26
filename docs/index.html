@@ -6,51 +6,54 @@
 <title>Mis equipos favoritos</title>
 <style>
   :root {
-    color-scheme: light dark;
+    color-scheme: dark;
+    --bg: #0a0a0b;
+    --card-bg: #1a1a1d;
+    --card-border: rgba(255,255,255,0.1);
+    --text: #f0f0f2;
+    --muted: #8b8d94;
     --win: #22c55e;
     --loss: #ef4444;
     --draw: #eab308;
   }
   * { box-sizing: border-box; }
-  body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 0; padding: 2rem 1rem; background: #0b1220; color: #e7ecf3; }
-  @media (prefers-color-scheme: light) { body { background: #f5f7fa; color: #111; } }
+  body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 0; padding: 2rem 1rem; background: var(--bg); color: var(--text); }
   h1 { text-align: center; margin-bottom: .25rem; text-transform: uppercase; letter-spacing: .06em; font-size: 1.6rem; }
-  .updated { text-align: center; color: #8892a6; font-size: .85rem; margin-bottom: 2rem; }
+  .updated { text-align: center; color: var(--muted); font-size: .85rem; margin-bottom: 2rem; }
   .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem; max-width: 1200px; margin: 0 auto; }
   .card {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-top: 4px solid #3b82f6;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-top: 5px solid var(--team-color);
     border-radius: 12px;
     padding: 1.5rem;
   }
-  @media (prefers-color-scheme: light) { .card { background: #fff; border-color: #e2e5ea; border-top-color: #3b82f6; box-shadow: 0 1px 3px rgba(0,0,0,.06); } }
   .card-header { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 1.25rem; }
   .logo { width: 88px; height: 88px; object-fit: contain; margin-bottom: .6rem; }
   .card-header h2 { margin: 0; font-size: 1.25rem; font-weight: 800; }
-  .league { margin-top: .35rem; font-size: .7rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: #8892a6; border: 1px solid currentColor; border-radius: 999px; padding: .15rem .6rem; }
-  .card h3 { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: #8892a6; margin: 1.1rem 0 .5rem; font-weight: 700; }
-  .muted { color: #8892a6; font-size: .9rem; margin: 0; }
+  .league { margin-top: .35rem; font-size: .7rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); border: 1px solid currentColor; border-radius: 999px; padding: .15rem .6rem; text-align: center; }
+  .card h3 { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 1.1rem 0 .5rem; font-weight: 700; }
+  .muted { color: var(--muted); font-size: .9rem; margin: 0; }
 
   .standing-row { display: flex; align-items: center; gap: .75rem; }
   .rank-badge {
     flex: none; display: flex; align-items: center; justify-content: center;
     width: 2.5rem; height: 2.5rem; border-radius: 50%;
-    background: #3b82f6; color: #fff; font-weight: 800; font-size: .95rem;
+    background: var(--team-color); color: var(--team-badge-text); font-weight: 800; font-size: .95rem;
   }
   .standing-detail { font-size: .85rem; line-height: 1.4; }
 
   .result-row, .upcoming-row {
-    display: flex; align-items: center; gap: .6rem;
+    display: flex; align-items: center; gap: .6rem; flex-wrap: wrap;
     padding: .4rem .5rem; margin-bottom: .3rem;
     border-radius: 6px; font-size: .85rem;
     background: rgba(255,255,255,0.04);
     border-left: 4px solid transparent;
   }
-  @media (prefers-color-scheme: light) { .result-row, .upcoming-row { background: #f5f7fa; } }
   .result-row.win { border-left-color: var(--win); }
   .result-row.loss { border-left-color: var(--loss); }
   .result-row.draw { border-left-color: var(--draw); }
+  .result-row.rivalry, .upcoming-row.rivalry { background: rgba(234,179,8,0.12); }
   .result-badge {
     flex: none; width: 1.5rem; height: 1.5rem; border-radius: 4px;
     display: flex; align-items: center; justify-content: center;
@@ -59,61 +62,67 @@
   .win .result-badge { background: var(--win); }
   .loss .result-badge { background: var(--loss); }
   .draw .result-badge { background: var(--draw); }
-  .result-date { flex: none; color: #8892a6; width: 5.5rem; }
+  .result-date { flex: none; color: var(--muted); width: 5.5rem; }
   .result-matchup { flex: 1; font-weight: 600; }
   .result-score { flex: none; font-weight: 800; font-variant-numeric: tabular-nums; }
   .upcoming-row .result-date { width: 5.5rem; }
-  .upcoming-time { flex: none; color: #8892a6; font-size: .78rem; }
+  .upcoming-time { flex: none; color: var(--muted); font-size: .78rem; }
+  .rivalry-tag { color: #eab308; font-weight: 700; font-size: .75rem; margin-left: .35rem; }
+  .comp-tag {
+    font-size: .68rem; font-weight: 600; text-transform: uppercase; letter-spacing: .03em;
+    color: var(--muted); background: rgba(255,255,255,0.08); border-radius: 4px;
+    padding: .05rem .4rem; margin-left: .35rem;
+  }
 </style>
 </head>
 <body>
   <h1>Mis equipos favoritos</h1>
-  <p class="updated">Actualizado: 2026-07-26T22:37:33.549Z UTC</p>
+  <p class="updated">Actualizado: 2026-07-26T22:45:23.944Z UTC</p>
   <div class="grid">
     
-  <section class="card">
+  <section class="card" style="--team-color: #ffffff; --team-badge-text: #111111">
     <div class="card-header">
       <img class="logo" src="assets/teams/real-madrid.webp" alt="Real Madrid" />
       <h2>Real Madrid</h2>
-      <span class="league">LaLiga</span>
+      <span class="league">LaLiga · Champions League · Copa del Rey · Supercopa de España</span>
     </div>
     <h3>Tabla de posiciones</h3>
     <div class="standing-row">
           <span class="rank-badge">16º</span>
-          <span class="standing-detail">de 20 en 2026-27 LALIGA<br>Record: <strong>0-0-0</strong></span>
+          <span class="standing-detail">de 20 en 2026-27 LALIGA (LaLiga)<br>Record: <strong>0-0-0</strong></span>
         </div>
     <h3>Ultimos resultados</h3>
     <div class="result-row win">
     <span class="result-badge">V</span>
     <span class="result-date">23 may 2026</span>
-    <span class="result-matchup">vs Athletic Club</span>
+    <span class="result-matchup">vs Athletic Club <span class="comp-tag">LaLiga</span></span>
     <span class="result-score">4&ndash;2</span>
   </div><div class="result-row win">
     <span class="result-badge">V</span>
     <span class="result-date">17 may 2026</span>
-    <span class="result-matchup">@ Sevilla</span>
+    <span class="result-matchup">@ Sevilla <span class="comp-tag">LaLiga</span></span>
     <span class="result-score">1&ndash;0</span>
   </div><div class="result-row win">
     <span class="result-badge">V</span>
     <span class="result-date">14 may 2026</span>
-    <span class="result-matchup">vs Real Oviedo</span>
+    <span class="result-matchup">vs Real Oviedo <span class="comp-tag">LaLiga</span></span>
     <span class="result-score">2&ndash;0</span>
-  </div><div class="result-row loss">
+  </div><div class="result-row loss rivalry">
     <span class="result-badge">D</span>
     <span class="result-date">10 may 2026</span>
-    <span class="result-matchup">@ Barcelona</span>
+    <span class="result-matchup">@ Barcelona <span class="rivalry-tag">★ Clásico</span><span class="comp-tag">LaLiga</span></span>
     <span class="result-score">0&ndash;2</span>
   </div><div class="result-row win">
     <span class="result-badge">V</span>
     <span class="result-date">03 may 2026</span>
-    <span class="result-matchup">@ Espanyol</span>
+    <span class="result-matchup">@ Espanyol <span class="comp-tag">LaLiga</span></span>
     <span class="result-score">2&ndash;0</span>
   </div>
     <h3>Proximos partidos</h3>
     <p class="muted">Calendario aun no publicado.</p>
   </section>
 
-  <section class="card">
+  <section class="card" style="--team-color: #0f9d58; --team-badge-text: #ffffff">
     <div class="card-header">
       <img class="logo" src="assets/teams/santos.png" alt="Santos Laguna" />
       <h2>Santos Laguna</h2>
@@ -122,40 +131,40 @@
     <h3>Tabla de posiciones</h3>
     <div class="standing-row">
           <span class="rank-badge">16º</span>
-          <span class="standing-detail">de 18 en 2026 Torneo Apertura<br>Record: <strong>0-0-2</strong></span>
+          <span class="standing-detail">de 18 en 2026 Torneo Apertura (Liga MX)<br>Record: <strong>0-0-2</strong></span>
         </div>
     <h3>Ultimos resultados</h3>
     <div class="result-row loss">
     <span class="result-badge">D</span>
     <span class="result-date">26 jul 2026</span>
-    <span class="result-matchup">vs Atlas</span>
+    <span class="result-matchup">vs Atlas </span>
     <span class="result-score">0&ndash;1</span>
   </div><div class="result-row loss">
     <span class="result-badge">D</span>
     <span class="result-date">19 jul 2026</span>
-    <span class="result-matchup">@ Monterrey</span>
+    <span class="result-matchup">@ Monterrey </span>
     <span class="result-score">2&ndash;3</span>
   </div><div class="result-row win">
     <span class="result-badge">V</span>
     <span class="result-date">26 abr 2026</span>
-    <span class="result-matchup">vs Monterrey</span>
+    <span class="result-matchup">vs Monterrey </span>
     <span class="result-score">3&ndash;0</span>
   </div><div class="result-row loss">
     <span class="result-badge">D</span>
     <span class="result-date">23 abr 2026</span>
-    <span class="result-matchup">@ Atlético de San Luis</span>
+    <span class="result-matchup">@ Atlético de San Luis </span>
     <span class="result-score">0&ndash;2</span>
   </div><div class="result-row loss">
     <span class="result-badge">D</span>
     <span class="result-date">19 abr 2026</span>
-    <span class="result-matchup">vs Atlas</span>
+    <span class="result-matchup">vs Atlas </span>
     <span class="result-score">0&ndash;1</span>
   </div>
     <h3>Proximos partidos</h3>
     <p class="muted">Calendario aun no publicado.</p>
   </section>
 
-  <section class="card">
+  <section class="card" style="--team-color: #0e3386; --team-badge-text: #ffffff">
     <div class="card-header">
       <img class="logo" src="assets/teams/cubs.webp" alt="Chicago Cubs" />
       <h2>Chicago Cubs</h2>
@@ -164,60 +173,60 @@
     <h3>Tabla de posiciones</h3>
     <div class="standing-row">
           <span class="rank-badge">4º</span>
-          <span class="standing-detail">de 15 en National League<br>Record: <strong>59-46</strong> &middot; .562</span>
+          <span class="standing-detail">de 15 en National League (MLB)<br>Record: <strong>59-46</strong> &middot; .562</span>
         </div>
     <h3>Ultimos resultados</h3>
     <div class="result-row loss">
     <span class="result-badge">D</span>
     <span class="result-date">26 jul 2026</span>
-    <span class="result-matchup">@ Pittsburgh Pirates</span>
+    <span class="result-matchup">@ Pittsburgh Pirates </span>
     <span class="result-score">7&ndash;8</span>
   </div><div class="result-row win">
     <span class="result-badge">V</span>
     <span class="result-date">25 jul 2026</span>
-    <span class="result-matchup">@ Pittsburgh Pirates</span>
+    <span class="result-matchup">@ Pittsburgh Pirates </span>
     <span class="result-score">11&ndash;0</span>
   </div><div class="result-row win">
     <span class="result-badge">V</span>
     <span class="result-date">24 jul 2026</span>
-    <span class="result-matchup">@ Pittsburgh Pirates</span>
+    <span class="result-matchup">@ Pittsburgh Pirates </span>
     <span class="result-score">3&ndash;2</span>
   </div><div class="result-row loss">
     <span class="result-badge">D</span>
     <span class="result-date">23 jul 2026</span>
-    <span class="result-matchup">vs Detroit Tigers</span>
+    <span class="result-matchup">vs Detroit Tigers </span>
     <span class="result-score">1&ndash;5</span>
   </div><div class="result-row win">
     <span class="result-badge">V</span>
     <span class="result-date">22 jul 2026</span>
-    <span class="result-matchup">vs Detroit Tigers</span>
+    <span class="result-matchup">vs Detroit Tigers </span>
     <span class="result-score">11&ndash;2</span>
   </div>
     <h3>Proximos partidos</h3>
     <div class="upcoming-row">
     <span class="result-date">27 jul 2026</span>
-    <span class="result-matchup">@ St. Louis Cardinals</span>
+    <span class="result-matchup">@ St. Louis Cardinals </span>
     <span class="upcoming-time">7/27 - 7:45 PM EDT</span>
   </div><div class="upcoming-row">
     <span class="result-date">28 jul 2026</span>
-    <span class="result-matchup">@ St. Louis Cardinals</span>
+    <span class="result-matchup">@ St. Louis Cardinals </span>
     <span class="upcoming-time">7/28 - 7:45 PM EDT</span>
   </div><div class="upcoming-row">
     <span class="result-date">29 jul 2026</span>
-    <span class="result-matchup">@ St. Louis Cardinals</span>
+    <span class="result-matchup">@ St. Louis Cardinals </span>
     <span class="upcoming-time">7/29 - 7:45 PM EDT</span>
   </div><div class="upcoming-row">
     <span class="result-date">30 jul 2026</span>
-    <span class="result-matchup">@ St. Louis Cardinals</span>
+    <span class="result-matchup">@ St. Louis Cardinals </span>
     <span class="upcoming-time">7/30 - 2:15 PM EDT</span>
   </div><div class="upcoming-row">
     <span class="result-date">31 jul 2026</span>
-    <span class="result-matchup">vs New York Yankees</span>
+    <span class="result-matchup">vs New York Yankees </span>
     <span class="upcoming-time">7/31 - 2:20 PM EDT</span>
   </div>
   </section>
 
-  <section class="card">
+  <section class="card" style="--team-color: #ce1141; --team-badge-text: #ffffff">
     <div class="card-header">
       <img class="logo" src="assets/teams/bulls.png" alt="Chicago Bulls" />
       <h2>Chicago Bulls</h2>
@@ -226,40 +235,40 @@
     <h3>Tabla de posiciones</h3>
     <div class="standing-row">
           <span class="rank-badge">14º</span>
-          <span class="standing-detail">de 15 en Eastern Conference<br>Record: <strong>31-51</strong> &middot; .378</span>
+          <span class="standing-detail">de 15 en Eastern Conference (NBA)<br>Record: <strong>31-51</strong> &middot; .378</span>
         </div>
     <h3>Ultimos resultados</h3>
     <div class="result-row win">
     <span class="result-badge">V</span>
     <span class="result-date">13 abr 2025</span>
-    <span class="result-matchup">@ Philadelphia 76ers</span>
+    <span class="result-matchup">@ Philadelphia 76ers </span>
     <span class="result-score">122&ndash;102</span>
   </div><div class="result-row win">
     <span class="result-badge">V</span>
     <span class="result-date">12 abr 2025</span>
-    <span class="result-matchup">vs Washington Wizards</span>
+    <span class="result-matchup">vs Washington Wizards </span>
     <span class="result-score">119&ndash;89</span>
   </div><div class="result-row win">
     <span class="result-badge">V</span>
     <span class="result-date">10 abr 2025</span>
-    <span class="result-matchup">vs Miami Heat</span>
+    <span class="result-matchup">vs Miami Heat </span>
     <span class="result-score">119&ndash;111</span>
   </div><div class="result-row loss">
     <span class="result-badge">D</span>
     <span class="result-date">08 abr 2025</span>
-    <span class="result-matchup">@ Cleveland Cavaliers</span>
+    <span class="result-matchup">@ Cleveland Cavaliers </span>
     <span class="result-score">113&ndash;135</span>
   </div><div class="result-row win">
     <span class="result-badge">V</span>
     <span class="result-date">06 abr 2025</span>
-    <span class="result-matchup">@ Charlotte Hornets</span>
+    <span class="result-matchup">@ Charlotte Hornets </span>
     <span class="result-score">131&ndash;117</span>
   </div>
     <h3>Proximos partidos</h3>
     <p class="muted">Calendario aun no publicado.</p>
   </section>
 
-  <section class="card">
+  <section class="card" style="--team-color: #a5acaf; --team-badge-text: #111111">
     <div class="card-header">
       <img class="logo" src="assets/teams/raiders.webp" alt="Las Vegas Raiders" />
       <h2>Las Vegas Raiders</h2>
@@ -268,55 +277,55 @@
     <h3>Tabla de posiciones</h3>
     <div class="standing-row">
           <span class="rank-badge">8º</span>
-          <span class="standing-detail">de 16 en American Football Conference<br>Record: <strong>0-0</strong> &middot; .000</span>
+          <span class="standing-detail">de 16 en American Football Conference (NFL)<br>Record: <strong>0-0</strong> &middot; .000</span>
         </div>
     <h3>Ultimos resultados</h3>
     <div class="result-row win">
     <span class="result-badge">V</span>
     <span class="result-date">04 ene 2026</span>
-    <span class="result-matchup">vs Kansas City Chiefs</span>
+    <span class="result-matchup">vs Kansas City Chiefs </span>
     <span class="result-score">14&ndash;12</span>
   </div><div class="result-row loss">
     <span class="result-badge">D</span>
     <span class="result-date">28 dic 2025</span>
-    <span class="result-matchup">vs New York Giants</span>
+    <span class="result-matchup">vs New York Giants </span>
     <span class="result-score">10&ndash;34</span>
   </div><div class="result-row loss">
     <span class="result-badge">D</span>
     <span class="result-date">21 dic 2025</span>
-    <span class="result-matchup">@ Houston Texans</span>
+    <span class="result-matchup">@ Houston Texans </span>
     <span class="result-score">21&ndash;23</span>
   </div><div class="result-row loss">
     <span class="result-badge">D</span>
     <span class="result-date">14 dic 2025</span>
-    <span class="result-matchup">@ Philadelphia Eagles</span>
+    <span class="result-matchup">@ Philadelphia Eagles </span>
     <span class="result-score">0&ndash;31</span>
   </div><div class="result-row loss">
     <span class="result-badge">D</span>
     <span class="result-date">07 dic 2025</span>
-    <span class="result-matchup">vs Denver Broncos</span>
+    <span class="result-matchup">vs Denver Broncos </span>
     <span class="result-score">17&ndash;24</span>
   </div>
     <h3>Proximos partidos</h3>
     <div class="upcoming-row">
     <span class="result-date">13 sep 2026</span>
-    <span class="result-matchup">vs Miami Dolphins</span>
+    <span class="result-matchup">vs Miami Dolphins </span>
     <span class="upcoming-time">9/13 - 4:25 PM EDT</span>
   </div><div class="upcoming-row">
     <span class="result-date">20 sep 2026</span>
-    <span class="result-matchup">@ Los Angeles Chargers</span>
+    <span class="result-matchup">@ Los Angeles Chargers </span>
     <span class="upcoming-time">9/20 - 4:05 PM EDT</span>
   </div><div class="upcoming-row">
     <span class="result-date">27 sep 2026</span>
-    <span class="result-matchup">@ New Orleans Saints</span>
+    <span class="result-matchup">@ New Orleans Saints </span>
     <span class="upcoming-time">9/27 - 4:25 PM EDT</span>
   </div><div class="upcoming-row">
     <span class="result-date">04 oct 2026</span>
-    <span class="result-matchup">vs Kansas City Chiefs</span>
+    <span class="result-matchup">vs Kansas City Chiefs </span>
     <span class="upcoming-time">10/4 - 4:25 PM EDT</span>
   </div><div class="upcoming-row">
     <span class="result-date">11 oct 2026</span>
-    <span class="result-matchup">@ New England Patriots</span>
+    <span class="result-matchup">@ New England Patriots </span>
     <span class="upcoming-time">10/11 - 1:00 PM EDT</span>
   </div>
   </section>
