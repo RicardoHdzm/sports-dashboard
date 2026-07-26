@@ -4,9 +4,9 @@
 const TEAMS = [
   { key: "real-madrid", name: "Real Madrid", emoji: "⚽", sportPath: "soccer/esp.1", leagueName: "LaLiga", teamId: "86" },
   { key: "santos-laguna", name: "Santos Laguna", emoji: "⚽", sportPath: "soccer/mex.1", leagueName: "Liga MX", teamId: "225" },
-  { key: "cubs", name: "Chicago Cubs", emoji: "⚾", sportPath: "baseball/mlb", leagueName: "MLB", teamId: "chc" },
-  { key: "bulls", name: "Chicago Bulls", emoji: "🏀", sportPath: "basketball/nba", leagueName: "NBA", teamId: "chi" },
-  { key: "raiders", name: "Las Vegas Raiders", emoji: "🏈", sportPath: "football/nfl", leagueName: "NFL", teamId: "lv" },
+  { key: "cubs", name: "Chicago Cubs", emoji: "⚾", sportPath: "baseball/mlb", leagueName: "MLB", teamId: "16" },
+  { key: "bulls", name: "Chicago Bulls", emoji: "🏀", sportPath: "basketball/nba", leagueName: "NBA", teamId: "4" },
+  { key: "raiders", name: "Las Vegas Raiders", emoji: "🏈", sportPath: "football/nfl", leagueName: "NFL", teamId: "13" },
 ];
 
 const BASE = "https://site.api.espn.com/apis/site/v2/sports";
@@ -19,12 +19,22 @@ async function fetchJson(url) {
 }
 
 async function getSchedule(team) {
-  let data = await fetchJson(`${BASE}/${team.sportPath}/teams/${team.teamId}/schedule`);
-  if (!data.events || data.events.length === 0) {
-    const fallbackYear = new Date().getUTCFullYear() - 1;
-    data = await fetchJson(`${BASE}/${team.sportPath}/teams/${team.teamId}/schedule?season=${fallbackYear}`);
+  // Se combinan temporada actual + anterior: entre temporadas, la actual solo trae
+  // partidos futuros y la anterior aporta los ultimos resultados terminados.
+  const previousYear = new Date().getUTCFullYear() - 1;
+  const urls = [
+    `${BASE}/${team.sportPath}/teams/${team.teamId}/schedule`,
+    `${BASE}/${team.sportPath}/teams/${team.teamId}/schedule?season=${previousYear}`,
+  ];
+  const results = await Promise.allSettled(urls.map(fetchJson));
+  const eventsById = new Map();
+  for (const result of results) {
+    if (result.status !== "fulfilled") continue;
+    for (const event of result.value.events || []) {
+      eventsById.set(event.id, event);
+    }
   }
-  return data.events || [];
+  return [...eventsById.values()];
 }
 
 function parseEvent(event, teamId) {
