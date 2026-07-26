@@ -2,11 +2,11 @@
 // Fuente de datos: API publica de ESPN (site.api.espn.com), no requiere API key.
 
 const TEAMS = [
-  { key: "real-madrid", name: "Real Madrid", emoji: "⚽", sportPath: "soccer/esp.1", leagueName: "LaLiga", teamId: "86" },
-  { key: "santos-laguna", name: "Santos Laguna", emoji: "⚽", sportPath: "soccer/mex.1", leagueName: "Liga MX", teamId: "225" },
-  { key: "cubs", name: "Chicago Cubs", emoji: "⚾", sportPath: "baseball/mlb", leagueName: "MLB", teamId: "16" },
-  { key: "bulls", name: "Chicago Bulls", emoji: "🏀", sportPath: "basketball/nba", leagueName: "NBA", teamId: "4" },
-  { key: "raiders", name: "Las Vegas Raiders", emoji: "🏈", sportPath: "football/nfl", leagueName: "NFL", teamId: "13" },
+  { key: "real-madrid", name: "Real Madrid", sportPath: "soccer/esp.1", leagueName: "LaLiga", teamId: "86", logo: "assets/teams/real-madrid.webp" },
+  { key: "santos-laguna", name: "Santos Laguna", sportPath: "soccer/mex.1", leagueName: "Liga MX", teamId: "225", logo: "assets/teams/santos.png" },
+  { key: "cubs", name: "Chicago Cubs", sportPath: "baseball/mlb", leagueName: "MLB", teamId: "16", logo: "assets/teams/cubs.webp" },
+  { key: "bulls", name: "Chicago Bulls", sportPath: "basketball/nba", leagueName: "NBA", teamId: "4", logo: "assets/teams/bulls.png" },
+  { key: "raiders", name: "Las Vegas Raiders", sportPath: "football/nfl", leagueName: "NFL", teamId: "13", logo: "assets/teams/raiders.webp" },
 ];
 
 const BASE = "https://site.api.espn.com/apis/site/v2/sports";
@@ -135,7 +135,7 @@ async function buildTeamCard(team) {
 
   return `
   <section class="card">
-    <h2>${team.emoji} ${team.name} <span class="league">${team.leagueName}</span></h2>
+    <h2><img class="logo" src="${team.logo}" alt="" /> ${team.name} <span class="league">${team.leagueName}</span></h2>
     <h3>Tabla de posiciones</h3>
     ${standingsHtml}
     <h3>Ultimos resultados</h3>
@@ -169,6 +169,7 @@ async function main() {
   .card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 1.25rem 1.5rem; }
   @media (prefers-color-scheme: light) { .card { background: #fff; border-color: #e2e5ea; box-shadow: 0 1px 3px rgba(0,0,0,.06); } }
   .card h2 { margin: 0 0 .75rem; font-size: 1.15rem; display: flex; align-items: center; gap: .5rem; }
+  .logo { width: 28px; height: 28px; object-fit: contain; }
   .league { font-size: .7rem; font-weight: 400; color: #8892a6; border: 1px solid currentColor; border-radius: 999px; padding: .1rem .5rem; }
   .card h3 { font-size: .8rem; text-transform: uppercase; letter-spacing: .04em; color: #8892a6; margin: 1rem 0 .35rem; }
   table { width: 100%; border-collapse: collapse; font-size: .9rem; }
@@ -188,7 +189,8 @@ async function main() {
   const fs = await import("node:fs/promises");
   await fs.mkdir("docs", { recursive: true });
   await fs.writeFile("docs/index.html", html, "utf8");
-  console.log("docs/index.html generado.");
+  await fs.cp("assets/teams", "docs/assets/teams", { recursive: true });
+  console.log("docs/index.html y docs/assets/teams generados.");
 }
 
 main().catch((err) => {
