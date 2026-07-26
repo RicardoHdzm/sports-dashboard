@@ -32,6 +32,15 @@ const TEAMS = [
     competitions: [{ path: "soccer/mex.1", name: "Liga MX" }],
   },
   {
+    key: "raiders",
+    name: "Las Vegas Raiders",
+    teamId: "13",
+    logo: "assets/teams/raiders.webp",
+    color: "#a5acaf",
+    badgeTextColor: "#111111",
+    competitions: [{ path: "football/nfl", name: "NFL" }],
+  },
+  {
     key: "cubs",
     name: "Chicago Cubs",
     teamId: "16",
@@ -48,15 +57,6 @@ const TEAMS = [
     color: "#ce1141",
     badgeTextColor: "#ffffff",
     competitions: [{ path: "basketball/nba", name: "NBA" }],
-  },
-  {
-    key: "raiders",
-    name: "Las Vegas Raiders",
-    teamId: "13",
-    logo: "assets/teams/raiders.webp",
-    color: "#a5acaf",
-    badgeTextColor: "#111111",
-    competitions: [{ path: "football/nfl", name: "NFL" }],
   },
 ];
 
@@ -187,10 +187,11 @@ function renderUpcomingRow(ev, showCompetition) {
   </div>`;
 }
 
-async function buildTeamCard(team) {
+async function buildTeamCard(team, order) {
   let resultados = "";
   let proximos = "";
   let standingsHtml = "";
+  let lastUpdated = 0;
   const showCompetition = team.competitions.length > 1;
   const rowLimit = showCompetition ? 8 : 5;
 
@@ -203,6 +204,8 @@ async function buildTeamCard(team) {
       .filter((e) => e.completed)
       .sort((a, b) => b.date - a.date)
       .slice(0, rowLimit);
+
+    lastUpdated = finished.length ? finished[0].date.getTime() : 0;
     const upcoming = parsed
       .filter((e) => !e.completed && e.date >= now)
       .sort((a, b) => a.date - b.date)
@@ -233,7 +236,7 @@ async function buildTeamCard(team) {
   }
 
   return `
-  <section class="card" style="--team-color: ${team.color}; --team-badge-text: ${team.badgeTextColor}">
+  <section class="card" data-order="${order}" data-updated="${lastUpdated}" style="--team-color: ${team.color}; --team-badge-text: ${team.badgeTextColor}">
     <div class="card-header">
       <img class="logo" src="${team.logo}" alt="${team.name}" />
       <h2>${team.name}</h2>
@@ -250,8 +253,8 @@ async function buildTeamCard(team) {
 
 async function main() {
   const cards = [];
-  for (const team of TEAMS) {
-    cards.push(await buildTeamCard(team));
+  for (let i = 0; i < TEAMS.length; i++) {
+    cards.push(await buildTeamCard(TEAMS[i], i));
   }
 
   const now = new Date();
@@ -269,7 +272,7 @@ async function main() {
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Sports Dashboard</title>
+<title>Stricke Out</title>
 <style>
   :root {
     color-scheme: dark;
@@ -298,11 +301,19 @@ async function main() {
     font-weight: 900; background: linear-gradient(135deg, #fff, #9ca3af);
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
+  h1 .rick { color: #eab308; }
   h1::after {
     content: ""; display: block; width: 64px; height: 4px; margin: .6rem auto 0;
     background: linear-gradient(90deg, #3b82f6, #eab308, #ef4444); border-radius: 999px;
   }
-  .updated { text-align: center; color: var(--muted); font-size: .85rem; margin: .9rem 0 2.5rem; }
+  .updated { text-align: center; color: var(--muted); font-size: .85rem; margin: .9rem 0 1.25rem; }
+  .sort-bar { display: flex; justify-content: center; gap: .5rem; margin-bottom: 2rem; }
+  .sort-btn {
+    font-family: inherit; font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em;
+    color: var(--muted); background: rgba(255,255,255,0.05); border: 1px solid var(--card-border);
+    border-radius: 999px; padding: .4rem 1.1rem; cursor: pointer;
+  }
+  .sort-btn.active { color: #0a0a0b; background: #eab308; border-color: #eab308; }
   .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem; max-width: 1200px; margin: 0 auto; }
   .card {
     background: var(--card-bg);
@@ -360,11 +371,38 @@ async function main() {
 </style>
 </head>
 <body>
-  <h1>Sports Dashboard</h1>
+  <h1>ST<span class="rick">RICK</span>E OUT</h1>
   <p class="updated">Actualizado: ${updatedAt}</p>
-  <div class="grid">
+  <div class="sort-bar">
+    <button class="sort-btn active" data-sort="deporte">Deporte</button>
+    <button class="sort-btn" data-sort="reciente">Más reciente</button>
+  </div>
+  <div class="grid" id="grid">
     ${cards.join("\n")}
   </div>
+  <script>
+    (function () {
+      var grid = document.getElementById("grid");
+      var buttons = document.querySelectorAll(".sort-btn");
+      function sortBy(mode) {
+        var items = Array.prototype.slice.call(grid.children);
+        items.sort(function (a, b) {
+          if (mode === "reciente") {
+            return Number(b.dataset.updated) - Number(a.dataset.updated);
+          }
+          return Number(a.dataset.order) - Number(b.dataset.order);
+        });
+        items.forEach(function (item) { grid.appendChild(item); });
+      }
+      buttons.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          buttons.forEach(function (b) { b.classList.remove("active"); });
+          btn.classList.add("active");
+          sortBy(btn.dataset.sort);
+        });
+      });
+    })();
+  </script>
 </body>
 </html>`;
 
