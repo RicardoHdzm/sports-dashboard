@@ -191,6 +191,7 @@ async function buildTeamCard(team) {
   let proximos = "";
   let standingsHtml = "";
   const showCompetition = team.competitions.length > 1;
+  const rowLimit = showCompetition ? 8 : 5;
 
   try {
     const rawEvents = await getSchedule(team);
@@ -200,11 +201,11 @@ async function buildTeamCard(team) {
     const finished = parsed
       .filter((e) => e.completed)
       .sort((a, b) => b.date - a.date)
-      .slice(0, 5);
+      .slice(0, rowLimit);
     const upcoming = parsed
       .filter((e) => !e.completed && e.date >= now)
       .sort((a, b) => a.date - b.date)
-      .slice(0, 5);
+      .slice(0, rowLimit);
 
     resultados = finished.length
       ? finished.map((e) => renderResultRow(e, showCompetition)).join("")
