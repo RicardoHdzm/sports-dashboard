@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Sports Dashboard</title>
+<title>Stricke Out</title>
 <style>
   :root {
     color-scheme: dark;
@@ -32,11 +32,19 @@
     font-weight: 900; background: linear-gradient(135deg, #fff, #9ca3af);
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
+  h1 .rick { color: #eab308; }
   h1::after {
     content: ""; display: block; width: 64px; height: 4px; margin: .6rem auto 0;
     background: linear-gradient(90deg, #3b82f6, #eab308, #ef4444); border-radius: 999px;
   }
-  .updated { text-align: center; color: var(--muted); font-size: .85rem; margin: .9rem 0 2.5rem; }
+  .updated { text-align: center; color: var(--muted); font-size: .85rem; margin: .9rem 0 1.25rem; }
+  .sort-bar { display: flex; justify-content: center; gap: .5rem; margin-bottom: 2rem; }
+  .sort-btn {
+    font-family: inherit; font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em;
+    color: var(--muted); background: rgba(255,255,255,0.05); border: 1px solid var(--card-border);
+    border-radius: 999px; padding: .4rem 1.1rem; cursor: pointer;
+  }
+  .sort-btn.active { color: #0a0a0b; background: #eab308; border-color: #eab308; }
   .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem; max-width: 1200px; margin: 0 auto; }
   .card {
     background: var(--card-bg);
@@ -94,11 +102,15 @@
 </style>
 </head>
 <body>
-  <h1>Sports Dashboard</h1>
-  <p class="updated">Actualizado: 26 jul 2026, 11:04 p.m.</p>
-  <div class="grid">
+  <h1>ST<span class="rick">RICK</span>E OUT</h1>
+  <p class="updated">Actualizado: 26 jul 2026, 11:11 p.m.</p>
+  <div class="sort-bar">
+    <button class="sort-btn active" data-sort="deporte">Deporte</button>
+    <button class="sort-btn" data-sort="reciente">Más reciente</button>
+  </div>
+  <div class="grid" id="grid">
     
-  <section class="card" style="--team-color: #ffffff; --team-badge-text: #111111">
+  <section class="card" data-order="0" data-updated="1779562800000" style="--team-color: #ffffff; --team-badge-text: #111111">
     <div class="card-header">
       <img class="logo" src="assets/teams/real-madrid.webp" alt="Real Madrid" />
       <h2>Real Madrid</h2>
@@ -155,7 +167,7 @@
     <p class="muted">Calendario aun no publicado.</p>
   </section>
 
-  <section class="card" style="--team-color: #0f9d58; --team-badge-text: #ffffff">
+  <section class="card" data-order="1" data-updated="1785034800000" style="--team-color: #0f9d58; --team-badge-text: #ffffff">
     <div class="card-header">
       <img class="logo" src="assets/teams/santos.png" alt="Santos Laguna" />
       <h2>Santos Laguna</h2>
@@ -197,7 +209,69 @@
     <p class="muted">Calendario aun no publicado.</p>
   </section>
 
-  <section class="card" style="--team-color: #0e3386; --team-badge-text: #ffffff">
+  <section class="card" data-order="2" data-updated="1767561900000" style="--team-color: #a5acaf; --team-badge-text: #111111">
+    <div class="card-header">
+      <img class="logo" src="assets/teams/raiders.webp" alt="Las Vegas Raiders" />
+      <h2>Las Vegas Raiders</h2>
+      <span class="league">NFL</span>
+    </div>
+    <h3>Tabla de posiciones</h3>
+    <div class="standing-row">
+          <span class="rank-badge">8º</span>
+          <span class="standing-detail">de 16 en American Football Conference (NFL)<br>Record: <strong>0-0</strong> &middot; .000</span>
+        </div>
+    <h3>Ultimos resultados</h3>
+    <div class="result-row win">
+    <span class="result-badge">V</span>
+    <span class="result-date">04 ene 2026</span>
+    <span class="result-matchup">vs Kansas City Chiefs </span>
+    <span class="result-score">14&ndash;12</span>
+  </div><div class="result-row loss">
+    <span class="result-badge">D</span>
+    <span class="result-date">28 dic 2025</span>
+    <span class="result-matchup">vs New York Giants </span>
+    <span class="result-score">10&ndash;34</span>
+  </div><div class="result-row loss">
+    <span class="result-badge">D</span>
+    <span class="result-date">21 dic 2025</span>
+    <span class="result-matchup">@ Houston Texans </span>
+    <span class="result-score">21&ndash;23</span>
+  </div><div class="result-row loss">
+    <span class="result-badge">D</span>
+    <span class="result-date">14 dic 2025</span>
+    <span class="result-matchup">@ Philadelphia Eagles </span>
+    <span class="result-score">0&ndash;31</span>
+  </div><div class="result-row loss">
+    <span class="result-badge">D</span>
+    <span class="result-date">07 dic 2025</span>
+    <span class="result-matchup">vs Denver Broncos </span>
+    <span class="result-score">17&ndash;24</span>
+  </div>
+    <h3>Proximos partidos</h3>
+    <div class="upcoming-row">
+    <span class="result-date">13 sep 2026</span>
+    <span class="result-matchup">vs Miami Dolphins </span>
+    <span class="upcoming-time">9/13 - 4:25 PM EDT</span>
+  </div><div class="upcoming-row">
+    <span class="result-date">20 sep 2026</span>
+    <span class="result-matchup">@ Los Angeles Chargers </span>
+    <span class="upcoming-time">9/20 - 4:05 PM EDT</span>
+  </div><div class="upcoming-row">
+    <span class="result-date">27 sep 2026</span>
+    <span class="result-matchup">@ New Orleans Saints </span>
+    <span class="upcoming-time">9/27 - 4:25 PM EDT</span>
+  </div><div class="upcoming-row">
+    <span class="result-date">04 oct 2026</span>
+    <span class="result-matchup">vs Kansas City Chiefs </span>
+    <span class="upcoming-time">10/4 - 4:25 PM EDT</span>
+  </div><div class="upcoming-row">
+    <span class="result-date">11 oct 2026</span>
+    <span class="result-matchup">@ New England Patriots </span>
+    <span class="upcoming-time">10/11 - 1:00 PM EDT</span>
+  </div>
+  </section>
+
+  <section class="card" data-order="3" data-updated="1785087300000" style="--team-color: #0e3386; --team-badge-text: #ffffff">
     <div class="card-header">
       <img class="logo" src="assets/teams/cubs.webp" alt="Chicago Cubs" />
       <h2>Chicago Cubs</h2>
@@ -259,7 +333,7 @@
   </div>
   </section>
 
-  <section class="card" style="--team-color: #ce1141; --team-badge-text: #ffffff">
+  <section class="card" data-order="4" data-updated="1744563600000" style="--team-color: #ce1141; --team-badge-text: #ffffff">
     <div class="card-header">
       <img class="logo" src="assets/teams/bulls.png" alt="Chicago Bulls" />
       <h2>Chicago Bulls</h2>
@@ -300,68 +374,29 @@
     <h3>Proximos partidos</h3>
     <p class="muted">Calendario aun no publicado.</p>
   </section>
-
-  <section class="card" style="--team-color: #a5acaf; --team-badge-text: #111111">
-    <div class="card-header">
-      <img class="logo" src="assets/teams/raiders.webp" alt="Las Vegas Raiders" />
-      <h2>Las Vegas Raiders</h2>
-      <span class="league">NFL</span>
-    </div>
-    <h3>Tabla de posiciones</h3>
-    <div class="standing-row">
-          <span class="rank-badge">8º</span>
-          <span class="standing-detail">de 16 en American Football Conference (NFL)<br>Record: <strong>0-0</strong> &middot; .000</span>
-        </div>
-    <h3>Ultimos resultados</h3>
-    <div class="result-row win">
-    <span class="result-badge">V</span>
-    <span class="result-date">04 ene 2026</span>
-    <span class="result-matchup">vs Kansas City Chiefs </span>
-    <span class="result-score">14&ndash;12</span>
-  </div><div class="result-row loss">
-    <span class="result-badge">D</span>
-    <span class="result-date">28 dic 2025</span>
-    <span class="result-matchup">vs New York Giants </span>
-    <span class="result-score">10&ndash;34</span>
-  </div><div class="result-row loss">
-    <span class="result-badge">D</span>
-    <span class="result-date">21 dic 2025</span>
-    <span class="result-matchup">@ Houston Texans </span>
-    <span class="result-score">21&ndash;23</span>
-  </div><div class="result-row loss">
-    <span class="result-badge">D</span>
-    <span class="result-date">14 dic 2025</span>
-    <span class="result-matchup">@ Philadelphia Eagles </span>
-    <span class="result-score">0&ndash;31</span>
-  </div><div class="result-row loss">
-    <span class="result-badge">D</span>
-    <span class="result-date">07 dic 2025</span>
-    <span class="result-matchup">vs Denver Broncos </span>
-    <span class="result-score">17&ndash;24</span>
   </div>
-    <h3>Proximos partidos</h3>
-    <div class="upcoming-row">
-    <span class="result-date">13 sep 2026</span>
-    <span class="result-matchup">vs Miami Dolphins </span>
-    <span class="upcoming-time">9/13 - 4:25 PM EDT</span>
-  </div><div class="upcoming-row">
-    <span class="result-date">20 sep 2026</span>
-    <span class="result-matchup">@ Los Angeles Chargers </span>
-    <span class="upcoming-time">9/20 - 4:05 PM EDT</span>
-  </div><div class="upcoming-row">
-    <span class="result-date">27 sep 2026</span>
-    <span class="result-matchup">@ New Orleans Saints </span>
-    <span class="upcoming-time">9/27 - 4:25 PM EDT</span>
-  </div><div class="upcoming-row">
-    <span class="result-date">04 oct 2026</span>
-    <span class="result-matchup">vs Kansas City Chiefs </span>
-    <span class="upcoming-time">10/4 - 4:25 PM EDT</span>
-  </div><div class="upcoming-row">
-    <span class="result-date">11 oct 2026</span>
-    <span class="result-matchup">@ New England Patriots </span>
-    <span class="upcoming-time">10/11 - 1:00 PM EDT</span>
-  </div>
-  </section>
-  </div>
+  <script>
+    (function () {
+      var grid = document.getElementById("grid");
+      var buttons = document.querySelectorAll(".sort-btn");
+      function sortBy(mode) {
+        var items = Array.prototype.slice.call(grid.children);
+        items.sort(function (a, b) {
+          if (mode === "reciente") {
+            return Number(b.dataset.updated) - Number(a.dataset.updated);
+          }
+          return Number(a.dataset.order) - Number(b.dataset.order);
+        });
+        items.forEach(function (item) { grid.appendChild(item); });
+      }
+      buttons.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          buttons.forEach(function (b) { b.classList.remove("active"); });
+          btn.classList.add("active");
+          sortBy(btn.dataset.sort);
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
