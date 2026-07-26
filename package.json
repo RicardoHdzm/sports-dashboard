@@ -1,0 +1,10 @@
+{
+  "name": "sports-dashboard",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Dashboard estatico con calendario, resultados y tabla de posiciones de equipos favoritos",
+  "scripts": {
+    "build": "node scripts/build.mjs"
+  }
+}
