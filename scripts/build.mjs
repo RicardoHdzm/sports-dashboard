@@ -302,10 +302,10 @@ async function main() {
   h1 { text-align: center; margin: 0 0 .4rem; line-height: 1; }
   .brand { display: inline-block; font-family: "Anton", "Arial Black", sans-serif; transform: skewX(-8deg); }
   .brand-main {
-    display: block; font-size: 3.2rem; letter-spacing: .02em; color: #fff;
+    display: block; font-size: 5rem; letter-spacing: .02em; color: #fff;
   }
   .brand-sub {
-    display: block; margin-top: -.3rem; font-size: 1rem; letter-spacing: .35em;
+    display: block; margin-top: .6rem; font-size: 1rem; letter-spacing: .35em;
     color: #fff; padding-left: .35em;
   }
   h1::after {
