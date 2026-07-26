@@ -253,14 +253,22 @@ async function main() {
     cards.push(await buildTeamCard(team));
   }
 
-  const updatedAt = new Date().toISOString();
+  const now = new Date();
+  const updatedAt = now.toLocaleString("es-MX", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "UTC",
+  });
 
   const html = `<!doctype html>
 <html lang="es">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Mis equipos favoritos</title>
+<title>Sports Dashboard</title>
 <style>
   :root {
     color-scheme: dark;
@@ -274,9 +282,28 @@ async function main() {
     --draw: #eab308;
   }
   * { box-sizing: border-box; }
-  body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 0; padding: 2rem 1rem; background: var(--bg); color: var(--text); }
-  h1 { text-align: center; margin-bottom: .25rem; text-transform: uppercase; letter-spacing: .06em; font-size: 1.6rem; }
-  .updated { text-align: center; color: var(--muted); font-size: .85rem; margin-bottom: 2rem; }
+  html { background: var(--bg); }
+  body {
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    margin: 0; padding: 2rem 1rem 4rem; color: var(--text);
+    background-color: var(--bg);
+    background-image:
+      radial-gradient(ellipse 900px 500px at 50% -10%, rgba(59,130,246,0.16) 0%, transparent 65%),
+      repeating-linear-gradient(135deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 14px),
+      radial-gradient(circle at 50% 100%, rgba(0,0,0,0.5) 0%, transparent 60%);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+  h1 {
+    text-align: center; margin: 0 0 .4rem; text-transform: uppercase; letter-spacing: .12em; font-size: 1.9rem;
+    font-weight: 900; background: linear-gradient(135deg, #fff, #9ca3af);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  h1::after {
+    content: ""; display: block; width: 64px; height: 4px; margin: .6rem auto 0;
+    background: linear-gradient(90deg, #3b82f6, #eab308, #ef4444); border-radius: 999px;
+  }
+  .updated { text-align: center; color: var(--muted); font-size: .85rem; margin: .9rem 0 2.5rem; }
   .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem; max-width: 1200px; margin: 0 auto; }
   .card {
     background: var(--card-bg);
@@ -284,6 +311,7 @@ async function main() {
     border-top: 5px solid var(--team-color);
     border-radius: 12px;
     padding: 1.5rem;
+    box-shadow: 0 14px 32px -18px var(--team-color), 0 4px 12px rgba(0,0,0,0.5);
   }
   .card-header { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 1.25rem; }
   .logo { width: 88px; height: 88px; object-fit: contain; margin-bottom: .6rem; }
@@ -333,8 +361,8 @@ async function main() {
 </style>
 </head>
 <body>
-  <h1>Mis equipos favoritos</h1>
-  <p class="updated">Actualizado: ${updatedAt} UTC</p>
+  <h1>Sports Dashboard</h1>
+  <p class="updated">Actualizado: ${updatedAt}</p>
   <div class="grid">
     ${cards.join("\n")}
   </div>
