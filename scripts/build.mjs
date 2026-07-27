@@ -328,7 +328,7 @@ async function main() {
   h1 { text-align: center; margin: 0 0 .4rem; line-height: 1; }
   .brand { display: inline-block; font-family: "Anton", "Arial Black", sans-serif; transform: skewX(-8deg); }
   .brand-main {
-    display: block; font-size: 5rem; letter-spacing: .05em;
+    display: block; font-size: clamp(2.75rem, 11vw, 5rem); letter-spacing: .05em;
   }
   .brand-main .solid { color: #ffffff; }
   .brand-main .hollow {
@@ -411,7 +411,7 @@ async function main() {
   .upcoming-row .result-date { width: 5.5rem; }
   .upcoming-time { flex: none; color: var(--muted); font-size: .78rem; }
   .rivalry-tag { color: #eab308; font-weight: 700; font-size: .75rem; margin-left: .35rem; }
-  .away-marker { color: #eab308; font-weight: 800; }
+  .away-marker { color: var(--loss); font-weight: 800; }
   .comp-tag {
     font-size: .68rem; font-weight: 600; text-transform: uppercase; letter-spacing: .03em;
     color: var(--muted); background: rgba(255,255,255,0.08); border-radius: 4px;
@@ -430,7 +430,7 @@ async function main() {
   .refresh-btn.spinning { animation: spin 0.6s linear; }
   @keyframes spin { to { transform: rotate(360deg); } }
   @media (max-width: 480px) {
-    .brand-main { font-size: 2.75rem; }
+    h1 { padding: 0 .75rem; }
   }
 </style>
 </head>
