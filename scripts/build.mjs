@@ -331,7 +331,7 @@ async function main() {
     display: block; font-size: 5rem; letter-spacing: .02em;
   }
   .brand-main .outline {
-    color: transparent; -webkit-text-stroke: 2px #ffffff; text-stroke: 2px #ffffff;
+    color: transparent; -webkit-text-stroke: 1px #ffffff; text-stroke: 1px #ffffff;
   }
   .brand-main .rick { color: #ffffff; }
   .brand-sub {
@@ -418,8 +418,8 @@ async function main() {
   }
   .refresh-btn {
     position: fixed; bottom: 1.5rem; right: 1.5rem; width: 3.25rem; height: 3.25rem;
-    border-radius: 50%; border: none; cursor: pointer; z-index: 20;
-    background: #ffffff; color: #0a0a0b; font-size: 1.4rem;
+    border-radius: 50%; border: 2px solid #ffffff; cursor: pointer; z-index: 20;
+    background: #000000; color: #ffffff; font-size: 1.4rem;
     display: flex; align-items: center; justify-content: center;
     box-shadow: 0 6px 16px rgba(0,0,0,0.5);
   }
