@@ -336,7 +336,7 @@ async function main() {
     --draw: #eab308;
   }
   * { box-sizing: border-box; }
-  html { background: var(--bg); }
+  html { background: var(--bg); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   body {
     font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
     margin: 0; padding: 0 1rem 4rem; color: var(--text);
