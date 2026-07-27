@@ -375,7 +375,7 @@ async function main() {
   }
   .brand-main .solid { color: #ffffff; }
   .brand-main .hollow {
-    color: transparent; -webkit-text-stroke: 0.5px #ffffff; text-stroke: 0.5px #ffffff;
+    color: transparent; -webkit-text-stroke: 0.3px #ffffff; text-stroke: 0.3px #ffffff;
   }
   .brand-sub {
     display: block; font-size: .2em; letter-spacing: .35em;
