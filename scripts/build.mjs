@@ -62,7 +62,7 @@ const TEAMS = [
     key: "kings",
     name: "Los Angeles Kings",
     teamId: "8",
-    logo: "https://a.espncdn.com/i/teamlogos/nhl/500/la.png",
+    logo: "assets/teams/la.png",
     color: "#a2aaad",
     badgeTextColor: "#111111",
     competitions: [{ path: "hockey/nhl", name: "NHL" }],
