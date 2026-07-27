@@ -414,7 +414,7 @@ async function main() {
   .upcoming-row .result-date { width: 5.5rem; }
   .upcoming-time { flex: none; color: var(--muted); font-size: .78rem; }
   .rivalry-tag { color: #eab308; font-weight: 700; font-size: .75rem; margin-left: .35rem; }
-  .away-marker { color: var(--loss); font-weight: 800; }
+  .away-marker { color: #38bdf8; font-weight: 800; }
   .comp-tag {
     font-size: .68rem; font-weight: 600; text-transform: uppercase; letter-spacing: .03em;
     color: var(--muted); background: rgba(255,255,255,0.08); border-radius: 4px;
