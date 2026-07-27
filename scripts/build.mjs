@@ -305,8 +305,8 @@ async function main() {
 <style>
   :root {
     color-scheme: dark;
-    --bg: #0a0a0b;
-    --card-bg: #1a1a1d;
+    --bg: #050505;
+    --card-bg: rgba(0,0,0,0.5);
     --card-border: rgba(255,255,255,0.1);
     --text: #f0f0f2;
     --muted: #8b8d94;
@@ -333,11 +333,7 @@ async function main() {
   .brand-sub {
     display: block; margin-top: .6rem; font-size: 1rem; letter-spacing: .35em;
     color: #fff; padding-left: .35em;
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; font-weight: 300;
-  }
-  h1::after {
-    content: ""; display: block; width: 160px; height: 4px; margin: .8rem auto 0;
-    background: #ffffff; border-radius: 999px;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; font-weight: 500;
   }
   .updated { text-align: center; color: var(--muted); font-size: .85rem; margin: .9rem 0 1.25rem; }
   .sort-bar { display: flex; justify-content: center; gap: .5rem; margin-bottom: 2rem; }
@@ -355,7 +351,6 @@ async function main() {
     border-top: 5px solid var(--team-color);
     border-radius: 12px;
     padding: 1.5rem;
-    box-shadow: 0 6px 14px -10px var(--team-color), 0 4px 12px rgba(0,0,0,0.5);
   }
   .status-dot {
     position: absolute; top: .9rem; right: .9rem; width: 12px; height: 12px; border-radius: 50%;
