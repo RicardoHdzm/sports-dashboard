@@ -181,6 +181,18 @@ async function getStandingEntry(team) {
   return null;
 }
 
+function computeStreak(finishedSortedDesc) {
+  if (!finishedSortedDesc.length) return null;
+  const type = finishedSortedDesc[0].result;
+  if (type !== "win" && type !== "loss") return null;
+  let count = 0;
+  for (const ev of finishedSortedDesc) {
+    if (ev.result === type) count++;
+    else break;
+  }
+  return { type, count };
+}
+
 function fmtDate(d) {
   return d.toLocaleDateString("es-MX", { day: "2-digit", month: "short", year: "numeric", timeZone: "UTC" });
 }
@@ -210,11 +222,13 @@ function renderUpcomingRow(ev, showCompetition) {
   </div>`;
 }
 
-async function buildTeamCard(team, order) {
+async function gatherTeamData(team, order) {
   let resultados = "";
   let proximos = "";
   let standingsHtml = "";
   let lastUpdated = 0;
+  let nextMatchTs = null;
+  let finished = [];
   const showCompetition = team.competitions.length > 1;
   const rowLimit = showCompetition ? 8 : 5;
 
@@ -223,7 +237,7 @@ async function buildTeamCard(team, order) {
     const parsed = rawEvents.map((e) => parseEvent(e, team));
     const now = new Date();
 
-    const finished = parsed
+    finished = parsed
       .filter((e) => e.completed)
       .sort((a, b) => b.date - a.date)
       .slice(0, rowLimit);
@@ -233,6 +247,8 @@ async function buildTeamCard(team, order) {
       .filter((e) => !e.completed && e.date >= now)
       .sort((a, b) => a.date - b.date)
       .slice(0, rowLimit);
+
+    nextMatchTs = upcoming.length ? upcoming[0].date.getTime() : null;
 
     resultados = finished.length
       ? finished.map((e) => renderResultRow(e, showCompetition)).join("")
@@ -247,19 +263,32 @@ async function buildTeamCard(team, order) {
   }
 
   const seasonStatus = await getSeasonStatus(team);
+  const streak = computeStreak(finished);
 
   try {
     const standing = await getStandingEntry(team);
+    const streakBadge = streak
+      ? ` <span class="streak-badge ${streak.type}">${streak.type === "win" ? "V" : "D"}${streak.count}</span>`
+      : "";
     standingsHtml = standing
       ? `<div class="standing-row">
           <span class="rank-badge">${standing.rank}º</span>
-          <span class="standing-detail">de ${standing.totalInGroup} en ${standing.groupName} (${standing.competitionName})<br>Record: <strong>${standing.record}</strong>${standing.winPercent ? ` &middot; ${standing.winPercent}` : ""}</span>
+          <span class="standing-detail">de ${standing.totalInGroup} en ${standing.groupName} (${standing.competitionName})<br>Record: <strong>${standing.record}</strong>${streakBadge}${standing.winPercent ? ` &middot; ${standing.winPercent}` : ""}</span>
         </div>`
       : `<p class="muted">Posicion no disponible.</p>`;
   } catch (err) {
     standingsHtml = `<p class="muted">No se pudo cargar (${err.message}).</p>`;
   }
 
+  return { team, order, lastUpdated, nextMatchTs, seasonStatus, standingsHtml, resultados, proximos };
+}
+
+function renderTeamCard(data, isNearest) {
+  const { team, order, lastUpdated, nextMatchTs, seasonStatus, standingsHtml, resultados, proximos } = data;
+  const countdownHtml =
+    isNearest && nextMatchTs
+      ? `<span class="countdown" data-target="${nextMatchTs}">Calculando...</span>`
+      : "";
   return `
   <section class="card" data-order="${order}" data-updated="${lastUpdated}" style="--team-color: ${team.color}; --team-badge-text: ${team.badgeTextColor}">
     <span class="status-dot ${seasonStatus}" title="${seasonStatus === "started" ? "Temporada en curso" : "Temporada aun no comienza"}"></span>
@@ -267,6 +296,7 @@ async function buildTeamCard(team, order) {
       <img class="logo" src="${team.logo}" alt="${team.name}" />
       <h2>${team.name}</h2>
       <span class="league">${team.badgeLabel || team.competitions.map((c) => c.name).join(" · ")}</span>
+      ${countdownHtml}
     </div>
     <h3>Tabla de posiciones</h3>
     ${standingsHtml}
@@ -278,10 +308,21 @@ async function buildTeamCard(team, order) {
 }
 
 async function main() {
-  const cards = [];
+  const teamData = [];
   for (let i = 0; i < TEAMS.length; i++) {
-    cards.push(await buildTeamCard(TEAMS[i], i));
+    teamData.push(await gatherTeamData(TEAMS[i], i));
   }
+
+  let nearestKey = null;
+  let nearestTs = Infinity;
+  for (const d of teamData) {
+    if (d.nextMatchTs && d.nextMatchTs < nearestTs) {
+      nearestTs = d.nextMatchTs;
+      nearestKey = d.team.key;
+    }
+  }
+
+  const cards = teamData.map((d) => renderTeamCard(d, d.team.key === nearestKey));
 
   const now = new Date();
   const updatedAt = now.toLocaleString("es-MX", {
@@ -378,6 +419,16 @@ async function main() {
   .logo { width: 88px; height: 88px; object-fit: contain; margin-bottom: .6rem; }
   .card-header h2 { margin: 0; font-size: 1.25rem; font-weight: 800; }
   .league { margin-top: .35rem; font-size: .7rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); border: 1px solid currentColor; border-radius: 999px; padding: .15rem .6rem; text-align: center; }
+  .countdown {
+    margin-top: .5rem; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+    color: #0a0a0b; background: #ffffff; border-radius: 999px; padding: .2rem .7rem;
+  }
+  .streak-badge {
+    display: inline-block; font-size: .72rem; font-weight: 800; border-radius: 4px;
+    padding: .05rem .35rem; color: #fff;
+  }
+  .streak-badge.win { background: var(--win); }
+  .streak-badge.loss { background: var(--loss); }
   .card h3 { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 1.1rem 0 .5rem; font-weight: 700; }
   .muted { color: var(--muted); font-size: .9rem; margin: 0; }
 
@@ -414,7 +465,7 @@ async function main() {
   .upcoming-row .result-date { width: 5.5rem; }
   .upcoming-time { flex: none; color: var(--muted); font-size: .78rem; }
   .rivalry-tag { color: #eab308; font-weight: 700; font-size: .75rem; margin-left: .35rem; }
-  .away-marker { color: #38bdf8; font-weight: 800; }
+  .away-marker { color: #ffffff; font-weight: 800; }
   .comp-tag {
     font-size: .68rem; font-weight: 600; text-transform: uppercase; letter-spacing: .03em;
     color: var(--muted); background: rgba(255,255,255,0.08); border-radius: 4px;
@@ -460,6 +511,26 @@ async function main() {
         refreshBtn.classList.add("spinning");
         window.location.href = window.location.pathname + "?t=" + Date.now();
       });
+    })();
+  </script>
+  <script>
+    (function () {
+      var els = document.querySelectorAll(".countdown");
+      if (!els.length) return;
+      function update() {
+        els.forEach(function (el) {
+          var diff = Number(el.dataset.target) - Date.now();
+          if (diff <= 0) {
+            el.textContent = "¡Es hoy!";
+            return;
+          }
+          var days = Math.floor(diff / 86400000);
+          var hours = Math.floor((diff % 86400000) / 3600000);
+          el.textContent = "Faltan " + days + "d " + hours + "h";
+        });
+      }
+      update();
+      setInterval(update, 60000);
     })();
   </script>
   <script>
