@@ -10,8 +10,8 @@
 <style>
   :root {
     color-scheme: dark;
-    --bg: #0d0d0d;
-    --card-bg: rgba(0,0,0,0.5);
+    --bg: #0a0a0b;
+    --card-bg: #1a1a1d;
     --card-border: rgba(255,255,255,0.1);
     --text: #f0f0f2;
     --muted: #8b8d94;
@@ -23,7 +23,7 @@
   html { background: var(--bg); }
   body {
     font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-    margin: 0; padding: 4rem 1rem 4rem; color: var(--text);
+    margin: 0; padding: 5rem 1rem 4rem; color: var(--text);
     background-color: var(--bg);
     background-image:
       repeating-linear-gradient(135deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 14px);
@@ -33,18 +33,18 @@
   h1 { text-align: center; margin: 0 0 .4rem; line-height: 1; }
   .brand { display: inline-block; font-family: "Anton", "Arial Black", sans-serif; transform: skewX(-8deg); }
   .brand-main {
-    display: block; font-size: 5rem; letter-spacing: .1em; color: #fff;
+    display: block; font-size: 5rem; letter-spacing: .02em; color: #fff;
   }
   .brand-sub {
-    display: block; margin-top: .6rem; font-size: 1rem; letter-spacing: .5em;
+    display: block; margin-top: .6rem; font-size: 1rem; letter-spacing: .35em;
     color: #fff; padding-left: .35em;
-<<<<<<< HEAD
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; font-weight: 600;
-=======
     font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; font-weight: 300;
->>>>>>> 10efe2664d71075a9a0cbf1d1211d593d71af818
   }
-  .updated { text-align: center; color: var(--muted); font-size: .85rem; margin: 1rem 0 1.5rem; }
+  h1::after {
+    content: ""; display: block; width: 160px; height: 4px; margin: .8rem auto 0;
+    background: #ffffff; border-radius: 999px;
+  }
+  .updated { text-align: center; color: var(--muted); font-size: .85rem; margin: .9rem 0 1.25rem; }
   .sort-bar { display: flex; justify-content: center; gap: .5rem; margin-bottom: 2rem; }
   .sort-btn {
     font-family: inherit; font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em;
@@ -59,6 +59,7 @@
     border-top: 5px solid var(--team-color);
     border-radius: 12px;
     padding: 1.5rem;
+    box-shadow: 0 6px 14px -10px var(--team-color), 0 4px 12px rgba(0,0,0,0.5);
   }
   .card-header { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 1.25rem; }
   .logo { width: 88px; height: 88px; object-fit: contain; margin-bottom: .6rem; }
@@ -114,7 +115,7 @@
       <span class="brand-sub">SPORTS DASHBOARD</span>
     </span>
   </h1>
-  <p class="updated">Actualizado: 26 jul 2026, 11:47 p.m.</p>
+  <p class="updated">Actualizado: 27 jul 2026, 12:02 a.m.</p>
   <div class="sort-bar">
     <button class="sort-btn active" data-sort="deporte">Deporte</button>
     <button class="sort-btn" data-sort="reciente">Más reciente</button>
