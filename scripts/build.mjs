@@ -273,7 +273,7 @@ async function gatherTeamData(team, order) {
     standingsHtml = standing
       ? `<div class="standing-row">
           <span class="rank-badge">${standing.rank}º</span>
-          <span class="standing-detail">de ${standing.totalInGroup} en ${standing.groupName} (${standing.competitionName})<br>Record: <strong>${standing.record}</strong>${streakBadge}${standing.winPercent ? ` &middot; ${standing.winPercent}` : ""}</span>
+          <span class="standing-detail">de ${standing.totalInGroup} en ${standing.groupName} (${standing.competitionName})${streakBadge}</span>
         </div>`
       : `<p class="muted">Posicion no disponible.</p>`;
   } catch (err) {
@@ -296,7 +296,6 @@ function renderTeamCard(data, isNearest) {
       <img class="logo" src="${team.logo}" alt="${team.name}" />
       <h2>${team.name}</h2>
       <span class="league">${team.badgeLabel || team.competitions.map((c) => c.name).join(" · ")}</span>
-      ${countdownHtml}
     </div>
     <h3>Tabla de posiciones</h3>
     ${standingsHtml}
@@ -304,6 +303,7 @@ function renderTeamCard(data, isNearest) {
     ${resultados}
     <h3>Proximos partidos</h3>
     ${proximos}
+    ${countdownHtml}
   </section>`;
 }
 
@@ -420,8 +420,8 @@ async function main() {
   .card-header h2 { margin: 0; font-size: 1.25rem; font-weight: 800; }
   .league { margin-top: .35rem; font-size: .7rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); border: 1px solid currentColor; border-radius: 999px; padding: .15rem .6rem; text-align: center; }
   .countdown {
-    margin-top: .5rem; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
-    color: #0a0a0b; background: #ffffff; border-radius: 999px; padding: .2rem .7rem;
+    display: block; width: fit-content; margin: 1.1rem auto 0; font-size: .75rem; font-weight: 700; letter-spacing: .03em;
+    color: #0a0a0b; background: #ffffff; border-radius: 999px; padding: .3rem .9rem;
   }
   .streak-badge {
     display: inline-block; font-size: .72rem; font-weight: 800; border-radius: 4px;
