@@ -463,6 +463,8 @@ async function main() {
   }
   @media (max-width: 480px) {
     h1 { padding: 0 .75rem; }
+    .ticker-copy { font-size: .68rem; }
+    .ticker-track { animation-duration: 110s; }
   }
 </style>
 </head>
