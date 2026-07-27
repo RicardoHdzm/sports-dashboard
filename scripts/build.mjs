@@ -371,7 +371,7 @@ async function main() {
     overflow: visible;
   }
   .brand-svg .solid { fill: #ffffff; }
-  .brand-svg .hollow { fill: none; stroke: #ffffff; stroke-width: 1.1; }
+  .brand-svg .hollow { fill: none; stroke: #ffffff; stroke-width: 0.4; }
   .brand-svg .sub { fill: #ffffff; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; font-weight: 500; }
   .updated { text-align: center; color: var(--muted); font-size: .85rem; margin: .35rem 0 1.25rem; }
   .sort-bar { display: flex; justify-content: center; gap: .5rem; margin-bottom: 2rem; }
