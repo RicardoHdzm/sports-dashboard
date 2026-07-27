@@ -1,12 +1,13 @@
-# sports-dashboard
+# stricke-out
 
 Pagina estatica con resultados terminados, proximos partidos y tabla de posiciones de:
 
 - Real Madrid (LaLiga)
 - Santos Laguna (Liga MX)
+- Las Vegas Raiders (NFL)
 - Chicago Cubs (MLB)
 - Chicago Bulls (NBA)
-- Las Vegas Raiders (NFL)
+- Los Angeles Kings (NHL)
 
 ## Como funciona
 
