@@ -84,8 +84,8 @@
   .card-header h2 { margin: 0; font-size: 1.25rem; font-weight: 800; }
   .league { margin-top: .35rem; font-size: .7rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); border: 1px solid currentColor; border-radius: 999px; padding: .15rem .6rem; text-align: center; }
   .countdown {
-    margin-top: .5rem; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
-    color: #0a0a0b; background: #ffffff; border-radius: 999px; padding: .2rem .7rem;
+    display: block; width: fit-content; margin: 1.1rem auto 0; font-size: .75rem; font-weight: 700; letter-spacing: .03em;
+    color: #0a0a0b; background: #ffffff; border-radius: 999px; padding: .3rem .9rem;
   }
   .streak-badge {
     display: inline-block; font-size: .72rem; font-weight: 800; border-radius: 4px;
@@ -159,7 +159,7 @@
       <span class="brand-sub">SPORTS DASHBOARD</span>
     </span>
   </h1>
-  <p class="updated">Actualizado: 27 jul 2026, 01:03 a.m.</p>
+  <p class="updated">Actualizado: 27 jul 2026, 01:09 a.m.</p>
   <div class="sort-bar">
     <button class="sort-btn active" data-sort="deporte">Deporte</button>
     <button class="sort-btn" data-sort="reciente">Más reciente</button>
@@ -172,12 +172,11 @@
       <img class="logo" src="assets/teams/real-madrid.webp" alt="Real Madrid" />
       <h2>Real Madrid</h2>
       <span class="league">LALIGA</span>
-      
     </div>
     <h3>Tabla de posiciones</h3>
     <div class="standing-row">
           <span class="rank-badge">16º</span>
-          <span class="standing-detail">de 20 en 2026-27 LALIGA (LaLiga)<br>Record: <strong>0-0-0</strong> <span class="streak-badge win">V3</span></span>
+          <span class="standing-detail">de 20 en 2026-27 LALIGA (LaLiga) <span class="streak-badge win">V3</span></span>
         </div>
     <h3>Ultimos resultados</h3>
     <div class="result-row win">
@@ -223,6 +222,7 @@
   </div>
     <h3>Proximos partidos</h3>
     <p class="muted">Calendario aun no publicado.</p>
+    
   </section>
 
   <section class="card" data-order="1" data-updated="1785034800000" style="--team-color: #0f9d58; --team-badge-text: #ffffff">
@@ -231,12 +231,11 @@
       <img class="logo" src="assets/teams/santos.png" alt="Santos Laguna" />
       <h2>Santos Laguna</h2>
       <span class="league">Liga MX</span>
-      
     </div>
     <h3>Tabla de posiciones</h3>
     <div class="standing-row">
           <span class="rank-badge">16º</span>
-          <span class="standing-detail">de 18 en 2026 Torneo Apertura (Liga MX)<br>Record: <strong>0-0-2</strong> <span class="streak-badge loss">D2</span></span>
+          <span class="standing-detail">de 18 en 2026 Torneo Apertura (Liga MX) <span class="streak-badge loss">D2</span></span>
         </div>
     <h3>Ultimos resultados</h3>
     <div class="result-row loss">
@@ -267,6 +266,7 @@
   </div>
     <h3>Proximos partidos</h3>
     <p class="muted">Calendario aun no publicado.</p>
+    
   </section>
 
   <section class="card" data-order="2" data-updated="1767561900000" style="--team-color: #a5acaf; --team-badge-text: #111111">
@@ -275,12 +275,11 @@
       <img class="logo" src="assets/teams/raiders.webp" alt="Las Vegas Raiders" />
       <h2>Las Vegas Raiders</h2>
       <span class="league">NFL</span>
-      
     </div>
     <h3>Tabla de posiciones</h3>
     <div class="standing-row">
           <span class="rank-badge">8º</span>
-          <span class="standing-detail">de 16 en American Football Conference (NFL)<br>Record: <strong>0-0</strong> <span class="streak-badge win">V1</span> &middot; .000</span>
+          <span class="standing-detail">de 16 en American Football Conference (NFL) <span class="streak-badge win">V1</span></span>
         </div>
     <h3>Ultimos resultados</h3>
     <div class="result-row win">
@@ -331,6 +330,7 @@
     <span class="result-matchup"><span class="away-marker">@</span> New England Patriots </span>
     <span class="upcoming-time">10/11 - 1:00 PM EDT</span>
   </div>
+    
   </section>
 
   <section class="card" data-order="3" data-updated="1785087300000" style="--team-color: #0e3386; --team-badge-text: #ffffff">
@@ -339,12 +339,11 @@
       <img class="logo" src="assets/teams/cubs.webp" alt="Chicago Cubs" />
       <h2>Chicago Cubs</h2>
       <span class="league">MLB</span>
-      <span class="countdown" data-target="1785195900000">Calculando...</span>
     </div>
     <h3>Tabla de posiciones</h3>
     <div class="standing-row">
           <span class="rank-badge">4º</span>
-          <span class="standing-detail">de 15 en National League (MLB)<br>Record: <strong>59-46</strong> <span class="streak-badge loss">D1</span> &middot; .562</span>
+          <span class="standing-detail">de 15 en National League (MLB) <span class="streak-badge loss">D1</span></span>
         </div>
     <h3>Ultimos resultados</h3>
     <div class="result-row loss">
@@ -395,6 +394,7 @@
     <span class="result-matchup">vs New York Yankees </span>
     <span class="upcoming-time">7/31 - 2:20 PM EDT</span>
   </div>
+    <span class="countdown" data-target="1785195900000">Calculando...</span>
   </section>
 
   <section class="card" data-order="4" data-updated="1744563600000" style="--team-color: #ce1141; --team-badge-text: #ffffff">
@@ -403,12 +403,11 @@
       <img class="logo" src="assets/teams/bulls.png" alt="Chicago Bulls" />
       <h2>Chicago Bulls</h2>
       <span class="league">NBA</span>
-      
     </div>
     <h3>Tabla de posiciones</h3>
     <div class="standing-row">
           <span class="rank-badge">14º</span>
-          <span class="standing-detail">de 15 en Eastern Conference (NBA)<br>Record: <strong>31-51</strong> <span class="streak-badge win">V3</span> &middot; .378</span>
+          <span class="standing-detail">de 15 en Eastern Conference (NBA) <span class="streak-badge win">V3</span></span>
         </div>
     <h3>Ultimos resultados</h3>
     <div class="result-row win">
@@ -439,6 +438,7 @@
   </div>
     <h3>Proximos partidos</h3>
     <p class="muted">Calendario aun no publicado.</p>
+    
   </section>
 
   <section class="card" data-order="5" data-updated="1744939800000" style="--team-color: #8b5cf6; --team-badge-text: #ffffff">
@@ -447,12 +447,11 @@
       <img class="logo" src="assets/teams/la.png" alt="Los Angeles Kings" />
       <h2>Los Angeles Kings</h2>
       <span class="league">NHL</span>
-      
     </div>
     <h3>Tabla de posiciones</h3>
     <div class="standing-row">
           <span class="rank-badge">7º</span>
-          <span class="standing-detail">de 16 en Western Conference (NHL)<br>Record: <strong>35-27-20, 90 PTS</strong> <span class="streak-badge loss">D1</span></span>
+          <span class="standing-detail">de 16 en Western Conference (NHL) <span class="streak-badge loss">D1</span></span>
         </div>
     <h3>Ultimos resultados</h3>
     <div class="result-row loss">
@@ -503,6 +502,7 @@
     <span class="result-matchup">vs Edmonton Oilers </span>
     <span class="upcoming-time">10/13 - 10:30 PM EDT</span>
   </div>
+    
   </section>
   </div>
   <button class="refresh-btn" id="refreshBtn" title="Actualizar resultados" aria-label="Actualizar resultados">↻</button>
