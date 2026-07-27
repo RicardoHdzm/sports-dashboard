@@ -50,22 +50,13 @@
     to { transform: translateX(-50%); }
   }
   h1 { text-align: center; margin: 3rem 0 .4rem; line-height: 1; }
-  .brand {
-    display: inline-block; font-family: "Anton", "Arial Black", sans-serif; transform: skewX(-8deg);
-    font-size: clamp(2.75rem, 11vw, 5rem);
+  .brand-svg {
+    width: clamp(280px, 60vw, 560px); height: auto; display: block; margin: 0 auto;
+    overflow: visible;
   }
-  .brand-main {
-    display: block; letter-spacing: .05em; margin-bottom: .18em;
-  }
-  .brand-main .solid { color: #ffffff; }
-  .brand-main .hollow {
-    color: transparent; -webkit-text-stroke: 0.3px #ffffff; text-stroke: 0.3px #ffffff;
-  }
-  .brand-sub {
-    display: block; font-size: .2em; letter-spacing: .35em;
-    color: #fff; padding-left: .35em;
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; font-weight: 500;
-  }
+  .brand-svg .solid { fill: #ffffff; }
+  .brand-svg .hollow { fill: none; stroke: #ffffff; stroke-width: 1.1; }
+  .brand-svg .sub { fill: #ffffff; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; font-weight: 500; }
   .updated { text-align: center; color: var(--muted); font-size: .85rem; margin: .35rem 0 1.25rem; }
   .sort-bar { display: flex; justify-content: center; gap: .5rem; margin-bottom: 2rem; }
   .sort-btn {
@@ -157,12 +148,16 @@
 <body>
   <div class="ticker"><div class="ticker-track"><span class="ticker-copy">Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; </span><span class="ticker-copy">Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; </span></div></div>
   <h1>
-    <span class="brand">
-      <span class="brand-main"><span class="solid">ST</span><span class="hollow">RICK</span><span class="solid">EOUT</span></span>
-      <span class="brand-sub">SPORTS DASHBOARD</span>
-    </span>
+    <svg class="brand-svg" viewBox="0 0 640 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Stricke Out Sports Dashboard">
+      <g transform="skewX(-8)">
+        <text x="320" y="118" text-anchor="middle" font-family="Anton, Arial Black, sans-serif" font-weight="900" font-size="118" letter-spacing="2">
+          <tspan class="solid">ST</tspan><tspan class="hollow">RICK</tspan><tspan class="solid">EOUT</tspan>
+        </text>
+        <text class="sub" x="320" y="165" text-anchor="middle" font-size="26" letter-spacing="8">SPORTS DASHBOARD</text>
+      </g>
+    </svg>
   </h1>
-  <p class="updated" id="updatedAt" data-ts="1785125870041">Actualizado: ...</p>
+  <p class="updated" id="updatedAt" data-ts="1785126797880">Actualizado: ...</p>
   <div class="sort-bar">
     <button class="sort-btn active" data-sort="deporte">Deporte</button>
     <button class="sort-btn" data-sort="reciente">Más reciente</button>
