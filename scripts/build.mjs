@@ -188,7 +188,7 @@ function fmtDate(d) {
 const RESULT_LABEL = { win: "V", loss: "D", draw: "E" };
 
 function renderResultRow(ev, showCompetition) {
-  const sede = ev.isTeamHome ? "vs" : "@";
+  const sede = ev.isTeamHome ? "vs" : '<span class="away-marker">@</span>';
   const rivalryTag = ev.rivalryLabel ? `<span class="rivalry-tag">★ ${ev.rivalryLabel}</span>` : "";
   const compTag = showCompetition ? `<span class="comp-tag">${ev.competitionName}</span>` : "";
   return `<div class="result-row ${ev.result}${ev.rivalryLabel ? " rivalry" : ""}">
@@ -200,7 +200,7 @@ function renderResultRow(ev, showCompetition) {
 }
 
 function renderUpcomingRow(ev, showCompetition) {
-  const sede = ev.isTeamHome ? "vs" : "@";
+  const sede = ev.isTeamHome ? "vs" : '<span class="away-marker">@</span>';
   const rivalryTag = ev.rivalryLabel ? `<span class="rivalry-tag">★ ${ev.rivalryLabel}</span>` : "";
   const compTag = showCompetition ? `<span class="comp-tag">${ev.competitionName}</span>` : "";
   return `<div class="upcoming-row${ev.rivalryLabel ? " rivalry" : ""}">
@@ -411,6 +411,7 @@ async function main() {
   .upcoming-row .result-date { width: 5.5rem; }
   .upcoming-time { flex: none; color: var(--muted); font-size: .78rem; }
   .rivalry-tag { color: #eab308; font-weight: 700; font-size: .75rem; margin-left: .35rem; }
+  .away-marker { color: #eab308; font-weight: 800; }
   .comp-tag {
     font-size: .68rem; font-weight: 600; text-transform: uppercase; letter-spacing: .03em;
     color: var(--muted); background: rgba(255,255,255,0.08); border-radius: 4px;
@@ -428,6 +429,9 @@ async function main() {
   .refresh-btn:active { transform: scale(0.92); }
   .refresh-btn.spinning { animation: spin 0.6s linear; }
   @keyframes spin { to { transform: rotate(360deg); } }
+  @media (max-width: 480px) {
+    .brand-main { font-size: 2.75rem; }
+  }
 </style>
 </head>
 <body>
