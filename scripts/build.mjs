@@ -301,8 +301,8 @@ async function main() {
       nextUp = { team: d.team, match: d.nextMatch };
     }
   }
-  const nextMatchBannerHtml = nextUp
-    ? `<p class="next-match">Proximo partido: <strong>${nextUp.team.name}</strong> vs <strong>${nextUp.match.rivalName}</strong> &mdash; ${nextUp.match.statusDetail}</p>`
+  const tickerHtml = nextUp
+    ? `<div class="ticker"><div class="ticker-track">Proximo partido: <strong>${nextUp.team.name}</strong> vs <strong>${nextUp.match.rivalName}</strong> &mdash; ${nextUp.match.statusDetail}</div></div>`
     : "";
 
   const cards = teamData.map((d) => renderTeamCard(d));
@@ -335,14 +335,27 @@ async function main() {
   html { background: var(--bg); }
   body {
     font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-    margin: 0; padding: 5rem 1rem 4rem; color: var(--text);
+    margin: 0; padding: 0 1rem 4rem; color: var(--text);
     background-color: var(--bg);
     background-image:
       repeating-linear-gradient(135deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 14px);
     background-attachment: fixed;
     min-height: 100vh;
   }
-  h1 { text-align: center; margin: 0 0 .4rem; line-height: 1; }
+  .ticker {
+    overflow: hidden; white-space: nowrap; background: rgba(255,255,255,0.06);
+    border-bottom: 1px solid var(--card-border); padding: .55rem 0; margin: 0 -1rem 0;
+  }
+  .ticker-track {
+    display: inline-block; padding-left: 100%; font-size: .8rem; font-weight: 600; color: var(--text);
+    animation: ticker-scroll 16s linear infinite;
+  }
+  .ticker-track strong { color: #fff; }
+  @keyframes ticker-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-100%); }
+  }
+  h1 { text-align: center; margin: 3rem 0 .4rem; line-height: 1; }
   .brand {
     display: inline-block; font-family: "Anton", "Arial Black", sans-serif; transform: skewX(-8deg);
     font-size: clamp(2.75rem, 11vw, 5rem);
@@ -359,7 +372,6 @@ async function main() {
     color: #fff; padding-left: .35em;
     font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; font-weight: 500;
   }
-  .next-match { text-align: center; color: var(--text); font-size: .85rem; margin: .9rem 0 0; }
   .updated { text-align: center; color: var(--muted); font-size: .85rem; margin: .35rem 0 1.25rem; }
   .sort-bar { display: flex; justify-content: center; gap: .5rem; margin-bottom: 2rem; }
   .sort-btn {
@@ -443,31 +455,19 @@ async function main() {
     color: var(--muted); background: rgba(255,255,255,0.08); border-radius: 4px;
     padding: .05rem .4rem; margin-left: .35rem;
   }
-  .refresh-btn {
-    position: fixed; bottom: 1.5rem; right: 1.5rem; width: 3.25rem; height: 3.25rem;
-    border-radius: 50%; border: 2px solid #ffffff; cursor: pointer; z-index: 20;
-    background: #000000; color: #ffffff; font-size: 1.4rem;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.5);
-    transition: transform 0.2s ease;
-  }
-  .refresh-btn:hover { transform: translateY(-4px); }
-  .refresh-btn:active { transform: scale(0.92); }
-  .refresh-btn.spinning { animation: spin 0.6s linear; }
-  @keyframes spin { to { transform: rotate(360deg); } }
   @media (max-width: 480px) {
     h1 { padding: 0 .75rem; }
   }
 </style>
 </head>
 <body>
+  ${tickerHtml}
   <h1>
     <span class="brand">
       <span class="brand-main"><span class="solid">ST</span><span class="hollow">RICK</span><span class="solid">EOUT</span></span>
       <span class="brand-sub">SPORTS DASHBOARD</span>
     </span>
   </h1>
-  ${nextMatchBannerHtml}
   <p class="updated" id="updatedAt" data-ts="${updatedAtTs}">Actualizado: ...</p>
   <div class="sort-bar">
     <button class="sort-btn active" data-sort="deporte">Deporte</button>
@@ -476,16 +476,6 @@ async function main() {
   <div class="grid" id="grid">
     ${cards.join("\n")}
   </div>
-  <button class="refresh-btn" id="refreshBtn" title="Actualizar resultados" aria-label="Actualizar resultados">↻</button>
-  <script>
-    (function () {
-      var refreshBtn = document.getElementById("refreshBtn");
-      refreshBtn.addEventListener("click", function () {
-        refreshBtn.classList.add("spinning");
-        window.location.href = window.location.pathname + "?t=" + Date.now();
-      });
-    })();
-  </script>
   <script>
     (function () {
       var el = document.getElementById("updatedAt");
