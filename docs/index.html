@@ -54,12 +54,28 @@
   .sort-btn.active { color: #0a0a0b; background: #ffffff; border-color: #ffffff; }
   .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem; max-width: 1200px; margin: 0 auto; }
   .card {
+    position: relative;
     background: var(--card-bg);
     border: 1px solid var(--card-border);
     border-top: 5px solid var(--team-color);
     border-radius: 12px;
     padding: 1.5rem;
     box-shadow: 0 6px 14px -10px var(--team-color), 0 4px 12px rgba(0,0,0,0.5);
+  }
+  .status-dot {
+    position: absolute; top: .9rem; right: .9rem; width: 12px; height: 12px; border-radius: 50%;
+  }
+  .status-dot.started { background: var(--win); animation: pulse-started 1.6s infinite; }
+  .status-dot.not-started { background: var(--loss); animation: pulse-not-started 1.6s infinite; }
+  @keyframes pulse-started {
+    0% { box-shadow: 0 0 0 0 rgba(34,197,94,0.65); }
+    70% { box-shadow: 0 0 0 9px rgba(34,197,94,0); }
+    100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+  }
+  @keyframes pulse-not-started {
+    0% { box-shadow: 0 0 0 0 rgba(239,68,68,0.65); }
+    70% { box-shadow: 0 0 0 9px rgba(239,68,68,0); }
+    100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); }
   }
   .card-header { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 1.25rem; }
   .logo { width: 88px; height: 88px; object-fit: contain; margin-bottom: .6rem; }
@@ -115,7 +131,7 @@
       <span class="brand-sub">SPORTS DASHBOARD</span>
     </span>
   </h1>
-  <p class="updated">Actualizado: 27 jul 2026, 12:02 a.m.</p>
+  <p class="updated">Actualizado: 27 jul 2026, 12:10 a.m.</p>
   <div class="sort-bar">
     <button class="sort-btn active" data-sort="deporte">Deporte</button>
     <button class="sort-btn" data-sort="reciente">Más reciente</button>
@@ -123,6 +139,7 @@
   <div class="grid" id="grid">
     
   <section class="card" data-order="0" data-updated="1779562800000" style="--team-color: #ffffff; --team-badge-text: #111111">
+    <span class="status-dot not-started" title="Temporada aun no comienza"></span>
     <div class="card-header">
       <img class="logo" src="assets/teams/real-madrid.webp" alt="Real Madrid" />
       <h2>Real Madrid</h2>
@@ -180,6 +197,7 @@
   </section>
 
   <section class="card" data-order="1" data-updated="1785034800000" style="--team-color: #0f9d58; --team-badge-text: #ffffff">
+    <span class="status-dot started" title="Temporada en curso"></span>
     <div class="card-header">
       <img class="logo" src="assets/teams/santos.png" alt="Santos Laguna" />
       <h2>Santos Laguna</h2>
@@ -222,6 +240,7 @@
   </section>
 
   <section class="card" data-order="2" data-updated="1767561900000" style="--team-color: #a5acaf; --team-badge-text: #111111">
+    <span class="status-dot not-started" title="Temporada aun no comienza"></span>
     <div class="card-header">
       <img class="logo" src="assets/teams/raiders.webp" alt="Las Vegas Raiders" />
       <h2>Las Vegas Raiders</h2>
@@ -284,6 +303,7 @@
   </section>
 
   <section class="card" data-order="3" data-updated="1785087300000" style="--team-color: #0e3386; --team-badge-text: #ffffff">
+    <span class="status-dot started" title="Temporada en curso"></span>
     <div class="card-header">
       <img class="logo" src="assets/teams/cubs.webp" alt="Chicago Cubs" />
       <h2>Chicago Cubs</h2>
@@ -346,6 +366,7 @@
   </section>
 
   <section class="card" data-order="4" data-updated="1744563600000" style="--team-color: #ce1141; --team-badge-text: #ffffff">
+    <span class="status-dot not-started" title="Temporada aun no comienza"></span>
     <div class="card-header">
       <img class="logo" src="assets/teams/bulls.png" alt="Chicago Bulls" />
       <h2>Chicago Bulls</h2>
@@ -385,6 +406,69 @@
   </div>
     <h3>Proximos partidos</h3>
     <p class="muted">Calendario aun no publicado.</p>
+  </section>
+
+  <section class="card" data-order="5" data-updated="1744939800000" style="--team-color: #a2aaad; --team-badge-text: #111111">
+    <span class="status-dot not-started" title="Temporada aun no comienza"></span>
+    <div class="card-header">
+      <img class="logo" src="assets/teams/la.png" alt="Los Angeles Kings" />
+      <h2>Los Angeles Kings</h2>
+      <span class="league">NHL</span>
+    </div>
+    <h3>Tabla de posiciones</h3>
+    <div class="standing-row">
+          <span class="rank-badge">7º</span>
+          <span class="standing-detail">de 16 en Western Conference (NHL)<br>Record: <strong>35-27-20, 90 PTS</strong></span>
+        </div>
+    <h3>Ultimos resultados</h3>
+    <div class="result-row loss">
+    <span class="result-badge">D</span>
+    <span class="result-date">18 abr 2025</span>
+    <span class="result-matchup">vs Calgary Flames </span>
+    <span class="result-score">1&ndash;5</span>
+  </div><div class="result-row win">
+    <span class="result-badge">V</span>
+    <span class="result-date">16 abr 2025</span>
+    <span class="result-matchup">@ Seattle Kraken </span>
+    <span class="result-score">6&ndash;5</span>
+  </div><div class="result-row win">
+    <span class="result-badge">V</span>
+    <span class="result-date">15 abr 2025</span>
+    <span class="result-matchup">@ Edmonton Oilers </span>
+    <span class="result-score">5&ndash;0</span>
+  </div><div class="result-row win">
+    <span class="result-badge">V</span>
+    <span class="result-date">12 abr 2025</span>
+    <span class="result-matchup">vs Colorado Avalanche </span>
+    <span class="result-score">5&ndash;4</span>
+  </div><div class="result-row win">
+    <span class="result-badge">V</span>
+    <span class="result-date">11 abr 2025</span>
+    <span class="result-matchup">vs Anaheim Ducks </span>
+    <span class="result-score">6&ndash;1</span>
+  </div>
+    <h3>Proximos partidos</h3>
+    <div class="upcoming-row">
+    <span class="result-date">01 oct 2026</span>
+    <span class="result-matchup">@ Colorado Avalanche </span>
+    <span class="upcoming-time">9/30 - 10:00 PM EDT</span>
+  </div><div class="upcoming-row">
+    <span class="result-date">04 oct 2026</span>
+    <span class="result-matchup">@ San Jose Sharks </span>
+    <span class="upcoming-time">10/3 - 10:00 PM EDT</span>
+  </div><div class="upcoming-row">
+    <span class="result-date">07 oct 2026</span>
+    <span class="result-matchup">vs Florida Panthers </span>
+    <span class="upcoming-time">10/6 - 10:30 PM EDT</span>
+  </div><div class="upcoming-row">
+    <span class="result-date">11 oct 2026</span>
+    <span class="result-matchup">@ Vegas Golden Knights </span>
+    <span class="upcoming-time">10/10 - 10:00 PM EDT</span>
+  </div><div class="upcoming-row">
+    <span class="result-date">14 oct 2026</span>
+    <span class="result-matchup">vs Edmonton Oilers </span>
+    <span class="upcoming-time">10/13 - 10:30 PM EDT</span>
+  </div>
   </section>
   </div>
   <script>
