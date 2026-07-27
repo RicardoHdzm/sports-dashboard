@@ -328,12 +328,12 @@ async function main() {
   h1 { text-align: center; margin: 0 0 .4rem; line-height: 1; }
   .brand { display: inline-block; font-family: "Anton", "Arial Black", sans-serif; transform: skewX(-8deg); }
   .brand-main {
-    display: block; font-size: 5rem; letter-spacing: .02em;
+    display: block; font-size: 5rem; letter-spacing: .05em;
   }
-  .brand-main .outline {
+  .brand-main .solid { color: #ffffff; }
+  .brand-main .hollow {
     color: transparent; -webkit-text-stroke: 0.5px #ffffff; text-stroke: 0.5px #ffffff;
   }
-  .brand-main .rick { color: #ffffff; }
   .brand-sub {
     display: block; margin-top: .6rem; font-size: 1rem; letter-spacing: .35em;
     color: #fff; padding-left: .35em;
@@ -433,7 +433,7 @@ async function main() {
 <body>
   <h1>
     <span class="brand">
-      <span class="brand-main"><span class="outline">ST</span><span class="rick">RICK</span><span class="outline">EOUT</span></span>
+      <span class="brand-main"><span class="solid">ST</span><span class="hollow">RICK</span><span class="solid">EOUT</span></span>
       <span class="brand-sub">SPORTS DASHBOARD</span>
     </span>
   </h1>
