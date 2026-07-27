@@ -419,7 +419,6 @@ async function main() {
     display: block; width: fit-content; margin: 1.1rem auto 0; font-size: .75rem; font-weight: 700; letter-spacing: .03em;
     color: var(--team-badge-text); background: var(--team-color); border-radius: 999px; padding: .3rem .9rem;
   }
-  .countdown.no-match { color: var(--muted); background: rgba(255,255,255,0.08); }
   .card h3 { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 1.1rem 0 .5rem; font-weight: 700; }
   .muted { color: var(--muted); font-size: .9rem; margin: 0; }
 
