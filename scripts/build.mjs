@@ -371,7 +371,6 @@ async function main() {
     overflow: visible;
   }
   .brand-svg .solid { fill: #ffffff; }
-  .brand-svg .hollow { fill: none; stroke: #ffffff; stroke-width: 18; stroke-linejoin: round; }
   .brand-svg .sub { fill: #ffffff; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; font-weight: 500; }
   .updated { text-align: center; color: var(--muted); font-size: .85rem; margin: .35rem 0 1.25rem; }
   .sort-bar { display: flex; justify-content: center; gap: .5rem; margin-bottom: 2rem; }
@@ -467,7 +466,7 @@ async function main() {
     <svg class="brand-svg" viewBox="0 0 640 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Stricke Out Sports Dashboard">
       <g transform="skewX(-8)">
         <text x="320" y="118" text-anchor="middle" font-family="Anton, Arial Black, sans-serif" font-weight="900" font-size="118" letter-spacing="2">
-          <tspan class="solid">ST</tspan><tspan class="hollow">RICK</tspan><tspan class="solid">EOUT</tspan>
+          <tspan class="solid">STRICKEOUT</tspan>
         </text>
         <text class="sub" x="320" y="165" text-anchor="middle" font-size="26" letter-spacing="8">SPORTS DASHBOARD</text>
       </g>
