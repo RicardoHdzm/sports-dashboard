@@ -328,8 +328,12 @@ async function main() {
   h1 { text-align: center; margin: 0 0 .4rem; line-height: 1; }
   .brand { display: inline-block; font-family: "Anton", "Arial Black", sans-serif; transform: skewX(-8deg); }
   .brand-main {
-    display: block; font-size: 5rem; letter-spacing: .02em; color: #fff;
+    display: block; font-size: 5rem; letter-spacing: .02em;
   }
+  .brand-main .outline {
+    color: transparent; -webkit-text-stroke: 2px #ffffff; text-stroke: 2px #ffffff;
+  }
+  .brand-main .rick { color: #ffffff; }
   .brand-sub {
     display: block; margin-top: .6rem; font-size: 1rem; letter-spacing: .35em;
     color: #fff; padding-left: .35em;
@@ -412,12 +416,22 @@ async function main() {
     color: var(--muted); background: rgba(255,255,255,0.08); border-radius: 4px;
     padding: .05rem .4rem; margin-left: .35rem;
   }
+  .refresh-btn {
+    position: fixed; bottom: 1.5rem; right: 1.5rem; width: 3.25rem; height: 3.25rem;
+    border-radius: 50%; border: none; cursor: pointer; z-index: 20;
+    background: #ffffff; color: #0a0a0b; font-size: 1.4rem;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.5);
+  }
+  .refresh-btn:active { transform: scale(0.92); }
+  .refresh-btn.spinning { animation: spin 0.6s linear; }
+  @keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
   <h1>
     <span class="brand">
-      <span class="brand-main">STRICKEOUT</span>
+      <span class="brand-main"><span class="outline">ST</span><span class="rick">RICK</span><span class="outline">EOUT</span></span>
       <span class="brand-sub">SPORTS DASHBOARD</span>
     </span>
   </h1>
@@ -429,6 +443,16 @@ async function main() {
   <div class="grid" id="grid">
     ${cards.join("\n")}
   </div>
+  <button class="refresh-btn" id="refreshBtn" title="Actualizar resultados" aria-label="Actualizar resultados">↻</button>
+  <script>
+    (function () {
+      var refreshBtn = document.getElementById("refreshBtn");
+      refreshBtn.addEventListener("click", function () {
+        refreshBtn.classList.add("spinning");
+        window.location.href = window.location.pathname + "?t=" + Date.now();
+      });
+    })();
+  </script>
   <script>
     (function () {
       var grid = document.getElementById("grid");
