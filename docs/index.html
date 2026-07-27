@@ -83,6 +83,16 @@
   .logo { width: 88px; height: 88px; object-fit: contain; margin-bottom: .6rem; }
   .card-header h2 { margin: 0; font-size: 1.25rem; font-weight: 800; }
   .league { margin-top: .35rem; font-size: .7rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); border: 1px solid currentColor; border-radius: 999px; padding: .15rem .6rem; text-align: center; }
+  .countdown {
+    margin-top: .5rem; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+    color: #0a0a0b; background: #ffffff; border-radius: 999px; padding: .2rem .7rem;
+  }
+  .streak-badge {
+    display: inline-block; font-size: .72rem; font-weight: 800; border-radius: 4px;
+    padding: .05rem .35rem; color: #fff;
+  }
+  .streak-badge.win { background: var(--win); }
+  .streak-badge.loss { background: var(--loss); }
   .card h3 { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 1.1rem 0 .5rem; font-weight: 700; }
   .muted { color: var(--muted); font-size: .9rem; margin: 0; }
 
@@ -119,7 +129,7 @@
   .upcoming-row .result-date { width: 5.5rem; }
   .upcoming-time { flex: none; color: var(--muted); font-size: .78rem; }
   .rivalry-tag { color: #eab308; font-weight: 700; font-size: .75rem; margin-left: .35rem; }
-  .away-marker { color: #38bdf8; font-weight: 800; }
+  .away-marker { color: #ffffff; font-weight: 800; }
   .comp-tag {
     font-size: .68rem; font-weight: 600; text-transform: uppercase; letter-spacing: .03em;
     color: var(--muted); background: rgba(255,255,255,0.08); border-radius: 4px;
@@ -149,7 +159,7 @@
       <span class="brand-sub">SPORTS DASHBOARD</span>
     </span>
   </h1>
-  <p class="updated">Actualizado: 27 jul 2026, 12:57 a.m.</p>
+  <p class="updated">Actualizado: 27 jul 2026, 01:03 a.m.</p>
   <div class="sort-bar">
     <button class="sort-btn active" data-sort="deporte">Deporte</button>
     <button class="sort-btn" data-sort="reciente">Más reciente</button>
@@ -162,11 +172,12 @@
       <img class="logo" src="assets/teams/real-madrid.webp" alt="Real Madrid" />
       <h2>Real Madrid</h2>
       <span class="league">LALIGA</span>
+      
     </div>
     <h3>Tabla de posiciones</h3>
     <div class="standing-row">
           <span class="rank-badge">16º</span>
-          <span class="standing-detail">de 20 en 2026-27 LALIGA (LaLiga)<br>Record: <strong>0-0-0</strong></span>
+          <span class="standing-detail">de 20 en 2026-27 LALIGA (LaLiga)<br>Record: <strong>0-0-0</strong> <span class="streak-badge win">V3</span></span>
         </div>
     <h3>Ultimos resultados</h3>
     <div class="result-row win">
@@ -220,11 +231,12 @@
       <img class="logo" src="assets/teams/santos.png" alt="Santos Laguna" />
       <h2>Santos Laguna</h2>
       <span class="league">Liga MX</span>
+      
     </div>
     <h3>Tabla de posiciones</h3>
     <div class="standing-row">
           <span class="rank-badge">16º</span>
-          <span class="standing-detail">de 18 en 2026 Torneo Apertura (Liga MX)<br>Record: <strong>0-0-2</strong></span>
+          <span class="standing-detail">de 18 en 2026 Torneo Apertura (Liga MX)<br>Record: <strong>0-0-2</strong> <span class="streak-badge loss">D2</span></span>
         </div>
     <h3>Ultimos resultados</h3>
     <div class="result-row loss">
@@ -263,11 +275,12 @@
       <img class="logo" src="assets/teams/raiders.webp" alt="Las Vegas Raiders" />
       <h2>Las Vegas Raiders</h2>
       <span class="league">NFL</span>
+      
     </div>
     <h3>Tabla de posiciones</h3>
     <div class="standing-row">
           <span class="rank-badge">8º</span>
-          <span class="standing-detail">de 16 en American Football Conference (NFL)<br>Record: <strong>0-0</strong> &middot; .000</span>
+          <span class="standing-detail">de 16 en American Football Conference (NFL)<br>Record: <strong>0-0</strong> <span class="streak-badge win">V1</span> &middot; .000</span>
         </div>
     <h3>Ultimos resultados</h3>
     <div class="result-row win">
@@ -326,11 +339,12 @@
       <img class="logo" src="assets/teams/cubs.webp" alt="Chicago Cubs" />
       <h2>Chicago Cubs</h2>
       <span class="league">MLB</span>
+      <span class="countdown" data-target="1785195900000">Calculando...</span>
     </div>
     <h3>Tabla de posiciones</h3>
     <div class="standing-row">
           <span class="rank-badge">4º</span>
-          <span class="standing-detail">de 15 en National League (MLB)<br>Record: <strong>59-46</strong> &middot; .562</span>
+          <span class="standing-detail">de 15 en National League (MLB)<br>Record: <strong>59-46</strong> <span class="streak-badge loss">D1</span> &middot; .562</span>
         </div>
     <h3>Ultimos resultados</h3>
     <div class="result-row loss">
@@ -389,11 +403,12 @@
       <img class="logo" src="assets/teams/bulls.png" alt="Chicago Bulls" />
       <h2>Chicago Bulls</h2>
       <span class="league">NBA</span>
+      
     </div>
     <h3>Tabla de posiciones</h3>
     <div class="standing-row">
           <span class="rank-badge">14º</span>
-          <span class="standing-detail">de 15 en Eastern Conference (NBA)<br>Record: <strong>31-51</strong> &middot; .378</span>
+          <span class="standing-detail">de 15 en Eastern Conference (NBA)<br>Record: <strong>31-51</strong> <span class="streak-badge win">V3</span> &middot; .378</span>
         </div>
     <h3>Ultimos resultados</h3>
     <div class="result-row win">
@@ -432,11 +447,12 @@
       <img class="logo" src="assets/teams/la.png" alt="Los Angeles Kings" />
       <h2>Los Angeles Kings</h2>
       <span class="league">NHL</span>
+      
     </div>
     <h3>Tabla de posiciones</h3>
     <div class="standing-row">
           <span class="rank-badge">7º</span>
-          <span class="standing-detail">de 16 en Western Conference (NHL)<br>Record: <strong>35-27-20, 90 PTS</strong></span>
+          <span class="standing-detail">de 16 en Western Conference (NHL)<br>Record: <strong>35-27-20, 90 PTS</strong> <span class="streak-badge loss">D1</span></span>
         </div>
     <h3>Ultimos resultados</h3>
     <div class="result-row loss">
@@ -497,6 +513,26 @@
         refreshBtn.classList.add("spinning");
         window.location.href = window.location.pathname + "?t=" + Date.now();
       });
+    })();
+  </script>
+  <script>
+    (function () {
+      var els = document.querySelectorAll(".countdown");
+      if (!els.length) return;
+      function update() {
+        els.forEach(function (el) {
+          var diff = Number(el.dataset.target) - Date.now();
+          if (diff <= 0) {
+            el.textContent = "¡Es hoy!";
+            return;
+          }
+          var days = Math.floor(diff / 86400000);
+          var hours = Math.floor((diff % 86400000) / 3600000);
+          el.textContent = "Faltan " + days + "d " + hours + "h";
+        });
+      }
+      update();
+      setInterval(update, 60000);
     })();
   </script>
   <script>
