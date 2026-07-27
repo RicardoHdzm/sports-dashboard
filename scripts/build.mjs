@@ -331,7 +331,7 @@ async function main() {
     display: block; font-size: 5rem; letter-spacing: .02em;
   }
   .brand-main .outline {
-    color: transparent; -webkit-text-stroke: 1px #ffffff; text-stroke: 1px #ffffff;
+    color: transparent; -webkit-text-stroke: 0.5px #ffffff; text-stroke: 0.5px #ffffff;
   }
   .brand-main .rick { color: #ffffff; }
   .brand-sub {
@@ -422,7 +422,9 @@ async function main() {
     background: #000000; color: #ffffff; font-size: 1.4rem;
     display: flex; align-items: center; justify-content: center;
     box-shadow: 0 6px 16px rgba(0,0,0,0.5);
+    transition: transform 0.2s ease;
   }
+  .refresh-btn:hover { transform: translateY(-4px); }
   .refresh-btn:active { transform: scale(0.92); }
   .refresh-btn.spinning { animation: spin 0.6s linear; }
   @keyframes spin { to { transform: rotate(360deg); } }
