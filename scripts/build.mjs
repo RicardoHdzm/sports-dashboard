@@ -227,7 +227,7 @@ async function gatherTeamData(team, order) {
     const finished = parsed
       .filter((e) => e.completed)
       .sort((a, b) => b.date - a.date)
-      .slice(0, rowLimit);
+      .slice(0, 5);
 
     lastUpdated = finished.length ? finished[0].date.getTime() : 0;
     const upcoming = parsed
