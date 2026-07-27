@@ -328,7 +328,7 @@ async function main() {
   h1 { text-align: center; margin: 0 0 .4rem; line-height: 1; }
   .brand {
     display: inline-block; font-family: "Anton", "Arial Black", sans-serif; transform: skewX(-8deg);
-    font-size: clamp(3.5rem, 15vw, 7.5rem);
+    font-size: clamp(2.75rem, 11vw, 5rem);
   }
   .brand-main {
     display: block; letter-spacing: .05em; margin-bottom: .18em;
