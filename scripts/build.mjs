@@ -320,6 +320,9 @@ async function main() {
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>STRICKE OUT | SPORTS DASHBOARD</title>
+<link rel="icon" href="assets/favicon/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="assets/favicon/apple-touch-icon.png" type="image/png" />
+<link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet" />
@@ -544,6 +547,7 @@ async function main() {
   await fs.mkdir("docs", { recursive: true });
   await fs.writeFile("docs/index.html", html, "utf8");
   await fs.cp("assets/teams", "docs/assets/teams", { recursive: true });
+  await fs.cp("assets/favicon", "docs/assets/favicon", { recursive: true });
   console.log("docs/index.html y assets generados.");
 }
 
