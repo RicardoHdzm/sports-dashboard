@@ -63,8 +63,8 @@ const TEAMS = [
     name: "Los Angeles Kings",
     teamId: "8",
     logo: "assets/teams/la.png",
-    color: "#a2aaad",
-    badgeTextColor: "#111111",
+    color: "#8b5cf6",
+    badgeTextColor: "#ffffff",
     competitions: [{ path: "hockey/nhl", name: "NHL" }],
   },
 ];
