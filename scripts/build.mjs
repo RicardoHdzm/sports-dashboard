@@ -366,12 +366,16 @@ async function main() {
     to { transform: translateX(-50%); }
   }
   h1 { text-align: center; margin: 3rem 0 .4rem; line-height: 1; }
-  .brand-svg {
-    width: clamp(280px, 60vw, 560px); height: auto; display: block; margin: 0 auto;
-    overflow: visible;
+  .brand {
+    display: inline-block; font-family: "Anton", "Arial Black", sans-serif; transform: skewX(-8deg);
+    font-size: clamp(2.75rem, 11vw, 5rem);
   }
-  .brand-svg .solid { fill: #ffffff; }
-  .brand-svg .sub { fill: #ffffff; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; font-weight: 500; }
+  .brand-main { display: block; letter-spacing: .05em; margin-bottom: .18em; color: #ffffff; }
+  .brand-sub {
+    display: block; font-size: .2em; letter-spacing: .35em;
+    color: #fff; padding-left: .35em;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; font-weight: 500;
+  }
   .updated { text-align: center; color: var(--muted); font-size: .85rem; margin: .35rem 0 1.25rem; }
   .sort-bar { display: flex; justify-content: center; gap: .5rem; margin-bottom: 2rem; }
   .sort-btn {
@@ -463,14 +467,10 @@ async function main() {
 <body>
   ${tickerHtml}
   <h1>
-    <svg class="brand-svg" viewBox="0 0 640 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Stricke Out Sports Dashboard">
-      <g transform="skewX(-8)">
-        <text x="320" y="118" text-anchor="middle" font-family="Anton, Arial Black, sans-serif" font-weight="900" font-size="118" letter-spacing="2">
-          <tspan class="solid">STRICKEOUT</tspan>
-        </text>
-        <text class="sub" x="320" y="165" text-anchor="middle" font-size="26" letter-spacing="8">SPORTS DASHBOARD</text>
-      </g>
-    </svg>
+    <span class="brand">
+      <span class="brand-main">STRICKEOUT</span>
+      <span class="brand-sub">SPORTS DASHBOARD</span>
+    </span>
   </h1>
   <p class="updated" id="updatedAt" data-ts="${updatedAtTs}">Actualizado: ...</p>
   <div class="sort-bar">
