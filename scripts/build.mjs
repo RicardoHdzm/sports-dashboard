@@ -270,7 +270,7 @@ function renderTeamCard(data) {
   const { team, order, lastUpdated, nextMatch, seasonStatus, standingsHtml, resultados, proximos } = data;
   const countdownHtml = nextMatch
     ? `<span class="countdown" data-target="${nextMatch.date.getTime()}">Calculando...</span>`
-    : "";
+    : `<span class="countdown no-match">Sin Anunciar</span>`;
   return `
   <section class="card" data-order="${order}" data-updated="${lastUpdated}" style="--team-color: ${team.color}; --team-badge-text: ${team.badgeTextColor}">
     <span class="status-dot ${seasonStatus}" title="${seasonStatus === "started" ? "Temporada en curso" : "Temporada aun no comienza"}"></span>
@@ -308,14 +308,7 @@ async function main() {
   const cards = teamData.map((d) => renderTeamCard(d));
 
   const now = new Date();
-  const updatedAt = now.toLocaleString("es-MX", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    timeZone: "UTC",
-  });
+  const updatedAtTs = now.getTime();
 
   const html = `<!doctype html>
 <html lang="es">
@@ -366,7 +359,7 @@ async function main() {
     color: #fff; padding-left: .35em;
     font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; font-weight: 500;
   }
-  .next-match { text-align: center; color: var(--text); font-size: .95rem; margin: .9rem 0 0; }
+  .next-match { text-align: center; color: var(--text); font-size: .85rem; margin: .9rem 0 0; }
   .updated { text-align: center; color: var(--muted); font-size: .85rem; margin: .35rem 0 1.25rem; }
   .sort-bar { display: flex; justify-content: center; gap: .5rem; margin-bottom: 2rem; }
   .sort-btn {
@@ -407,6 +400,7 @@ async function main() {
     display: block; width: fit-content; margin: 1.1rem auto 0; font-size: .75rem; font-weight: 700; letter-spacing: .03em;
     color: var(--team-badge-text); background: var(--team-color); border-radius: 999px; padding: .3rem .9rem;
   }
+  .countdown.no-match { color: var(--muted); background: rgba(255,255,255,0.08); }
   .card h3 { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 1.1rem 0 .5rem; font-weight: 700; }
   .muted { color: var(--muted); font-size: .9rem; margin: 0; }
 
@@ -474,7 +468,7 @@ async function main() {
     </span>
   </h1>
   ${nextMatchBannerHtml}
-  <p class="updated">Actualizado: ${updatedAt}</p>
+  <p class="updated" id="updatedAt" data-ts="${updatedAtTs}">Actualizado: ...</p>
   <div class="sort-bar">
     <button class="sort-btn active" data-sort="deporte">Deporte</button>
     <button class="sort-btn" data-sort="reciente">Más reciente</button>
@@ -494,10 +488,21 @@ async function main() {
   </script>
   <script>
     (function () {
+      var el = document.getElementById("updatedAt");
+      var ts = Number(el.dataset.ts);
+      var formatted = new Date(ts).toLocaleString("es-MX", {
+        day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit"
+      });
+      el.textContent = "Actualizado: " + formatted;
+    })();
+  </script>
+  <script>
+    (function () {
       var els = document.querySelectorAll(".countdown");
       if (!els.length) return;
       function update() {
         els.forEach(function (el) {
+          if (!el.dataset.target) return;
           var diff = Number(el.dataset.target) - Date.now();
           if (diff <= 0) {
             el.textContent = "¡Es hoy!";
