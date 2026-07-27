@@ -302,7 +302,11 @@ async function main() {
     }
   }
   const tickerHtml = nextUp
-    ? `<div class="ticker"><div class="ticker-track">Proximo partido: <strong>${nextUp.team.name}</strong> vs <strong>${nextUp.match.rivalName}</strong> &mdash; ${nextUp.match.statusDetail}</div></div>`
+    ? (() => {
+        const msg = `Proximo partido: <strong>${nextUp.team.name}</strong> vs <strong>${nextUp.match.rivalName}</strong> &mdash; ${nextUp.match.statusDetail}`;
+        const repeated = Array.from({ length: 10 }, () => msg).join(" &nbsp;•&nbsp; ");
+        return `<div class="ticker"><div class="ticker-track"><span class="ticker-copy">${repeated} &nbsp;•&nbsp; </span><span class="ticker-copy">${repeated} &nbsp;•&nbsp; </span></div></div>`;
+      })()
     : "";
 
   const cards = teamData.map((d) => renderTeamCard(d));
@@ -343,17 +347,20 @@ async function main() {
     min-height: 100vh;
   }
   .ticker {
-    overflow: hidden; white-space: nowrap; background: rgba(255,255,255,0.06);
+    overflow: hidden; white-space: nowrap; background: rgba(0,0,0,0.5);
     border-bottom: 1px solid var(--card-border); padding: .55rem 0; margin: 0 -1rem 0;
   }
   .ticker-track {
-    display: inline-block; padding-left: 100%; font-size: .8rem; font-weight: 600; color: var(--text);
-    animation: ticker-scroll 16s linear infinite;
+    display: flex; width: max-content;
+    animation: ticker-scroll 60s linear infinite;
+  }
+  .ticker-copy {
+    font-size: .85rem; font-weight: 600; color: var(--text);
   }
   .ticker-track strong { color: #fff; }
   @keyframes ticker-scroll {
     from { transform: translateX(0); }
-    to { transform: translateX(-100%); }
+    to { transform: translateX(-50%); }
   }
   h1 { text-align: center; margin: 3rem 0 .4rem; line-height: 1; }
   .brand {
