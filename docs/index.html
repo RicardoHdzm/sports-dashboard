@@ -116,6 +116,7 @@
   .upcoming-row .result-date { width: 5.5rem; }
   .upcoming-time { flex: none; color: var(--muted); font-size: .78rem; }
   .rivalry-tag { color: #eab308; font-weight: 700; font-size: .75rem; margin-left: .35rem; }
+  .away-marker { color: #eab308; font-weight: 800; }
   .comp-tag {
     font-size: .68rem; font-weight: 600; text-transform: uppercase; letter-spacing: .03em;
     color: var(--muted); background: rgba(255,255,255,0.08); border-radius: 4px;
@@ -133,6 +134,9 @@
   .refresh-btn:active { transform: scale(0.92); }
   .refresh-btn.spinning { animation: spin 0.6s linear; }
   @keyframes spin { to { transform: rotate(360deg); } }
+  @media (max-width: 480px) {
+    .brand-main { font-size: 2.75rem; }
+  }
 </style>
 </head>
 <body>
@@ -142,7 +146,7 @@
       <span class="brand-sub">SPORTS DASHBOARD</span>
     </span>
   </h1>
-  <p class="updated">Actualizado: 27 jul 2026, 12:40 a.m.</p>
+  <p class="updated">Actualizado: 27 jul 2026, 12:44 a.m.</p>
   <div class="sort-bar">
     <button class="sort-btn active" data-sort="deporte">Deporte</button>
     <button class="sort-btn" data-sort="reciente">Más reciente</button>
@@ -170,7 +174,7 @@
   </div><div class="result-row win">
     <span class="result-badge">V</span>
     <span class="result-date">17 may 2026</span>
-    <span class="result-matchup">@ Sevilla <span class="comp-tag">LaLiga</span></span>
+    <span class="result-matchup"><span class="away-marker">@</span> Sevilla <span class="comp-tag">LaLiga</span></span>
     <span class="result-score">1&ndash;0</span>
   </div><div class="result-row win">
     <span class="result-badge">V</span>
@@ -180,17 +184,17 @@
   </div><div class="result-row loss rivalry">
     <span class="result-badge">D</span>
     <span class="result-date">10 may 2026</span>
-    <span class="result-matchup">@ Barcelona <span class="rivalry-tag">★ Clásico</span><span class="comp-tag">LaLiga</span></span>
+    <span class="result-matchup"><span class="away-marker">@</span> Barcelona <span class="rivalry-tag">★ Clásico</span><span class="comp-tag">LaLiga</span></span>
     <span class="result-score">0&ndash;2</span>
   </div><div class="result-row win">
     <span class="result-badge">V</span>
     <span class="result-date">03 may 2026</span>
-    <span class="result-matchup">@ Espanyol <span class="comp-tag">LaLiga</span></span>
+    <span class="result-matchup"><span class="away-marker">@</span> Espanyol <span class="comp-tag">LaLiga</span></span>
     <span class="result-score">2&ndash;0</span>
   </div><div class="result-row draw">
     <span class="result-badge">E</span>
     <span class="result-date">24 abr 2026</span>
-    <span class="result-matchup">@ Real Betis <span class="comp-tag">LaLiga</span></span>
+    <span class="result-matchup"><span class="away-marker">@</span> Real Betis <span class="comp-tag">LaLiga</span></span>
     <span class="result-score">1&ndash;1</span>
   </div><div class="result-row win">
     <span class="result-badge">V</span>
@@ -200,7 +204,7 @@
   </div><div class="result-row loss">
     <span class="result-badge">D</span>
     <span class="result-date">15 abr 2026</span>
-    <span class="result-matchup">@ Bayern Munich <span class="comp-tag">Champions League</span></span>
+    <span class="result-matchup"><span class="away-marker">@</span> Bayern Munich <span class="comp-tag">Champions League</span></span>
     <span class="result-score">3&ndash;4</span>
   </div>
     <h3>Proximos partidos</h3>
@@ -228,7 +232,7 @@
   </div><div class="result-row loss">
     <span class="result-badge">D</span>
     <span class="result-date">19 jul 2026</span>
-    <span class="result-matchup">@ Monterrey </span>
+    <span class="result-matchup"><span class="away-marker">@</span> Monterrey </span>
     <span class="result-score">2&ndash;3</span>
   </div><div class="result-row win">
     <span class="result-badge">V</span>
@@ -238,7 +242,7 @@
   </div><div class="result-row loss">
     <span class="result-badge">D</span>
     <span class="result-date">23 abr 2026</span>
-    <span class="result-matchup">@ Atlético de San Luis </span>
+    <span class="result-matchup"><span class="away-marker">@</span> Atlético de San Luis </span>
     <span class="result-score">0&ndash;2</span>
   </div><div class="result-row loss">
     <span class="result-badge">D</span>
@@ -276,12 +280,12 @@
   </div><div class="result-row loss">
     <span class="result-badge">D</span>
     <span class="result-date">21 dic 2025</span>
-    <span class="result-matchup">@ Houston Texans </span>
+    <span class="result-matchup"><span class="away-marker">@</span> Houston Texans </span>
     <span class="result-score">21&ndash;23</span>
   </div><div class="result-row loss">
     <span class="result-badge">D</span>
     <span class="result-date">14 dic 2025</span>
-    <span class="result-matchup">@ Philadelphia Eagles </span>
+    <span class="result-matchup"><span class="away-marker">@</span> Philadelphia Eagles </span>
     <span class="result-score">0&ndash;31</span>
   </div><div class="result-row loss">
     <span class="result-badge">D</span>
@@ -296,11 +300,11 @@
     <span class="upcoming-time">9/13 - 4:25 PM EDT</span>
   </div><div class="upcoming-row">
     <span class="result-date">20 sep 2026</span>
-    <span class="result-matchup">@ Los Angeles Chargers </span>
+    <span class="result-matchup"><span class="away-marker">@</span> Los Angeles Chargers </span>
     <span class="upcoming-time">9/20 - 4:05 PM EDT</span>
   </div><div class="upcoming-row">
     <span class="result-date">27 sep 2026</span>
-    <span class="result-matchup">@ New Orleans Saints </span>
+    <span class="result-matchup"><span class="away-marker">@</span> New Orleans Saints </span>
     <span class="upcoming-time">9/27 - 4:25 PM EDT</span>
   </div><div class="upcoming-row">
     <span class="result-date">04 oct 2026</span>
@@ -308,7 +312,7 @@
     <span class="upcoming-time">10/4 - 4:25 PM EDT</span>
   </div><div class="upcoming-row">
     <span class="result-date">11 oct 2026</span>
-    <span class="result-matchup">@ New England Patriots </span>
+    <span class="result-matchup"><span class="away-marker">@</span> New England Patriots </span>
     <span class="upcoming-time">10/11 - 1:00 PM EDT</span>
   </div>
   </section>
@@ -329,17 +333,17 @@
     <div class="result-row loss">
     <span class="result-badge">D</span>
     <span class="result-date">26 jul 2026</span>
-    <span class="result-matchup">@ Pittsburgh Pirates </span>
+    <span class="result-matchup"><span class="away-marker">@</span> Pittsburgh Pirates </span>
     <span class="result-score">7&ndash;8</span>
   </div><div class="result-row win">
     <span class="result-badge">V</span>
     <span class="result-date">25 jul 2026</span>
-    <span class="result-matchup">@ Pittsburgh Pirates </span>
+    <span class="result-matchup"><span class="away-marker">@</span> Pittsburgh Pirates </span>
     <span class="result-score">11&ndash;0</span>
   </div><div class="result-row win">
     <span class="result-badge">V</span>
     <span class="result-date">24 jul 2026</span>
-    <span class="result-matchup">@ Pittsburgh Pirates </span>
+    <span class="result-matchup"><span class="away-marker">@</span> Pittsburgh Pirates </span>
     <span class="result-score">3&ndash;2</span>
   </div><div class="result-row loss">
     <span class="result-badge">D</span>
@@ -355,19 +359,19 @@
     <h3>Proximos partidos</h3>
     <div class="upcoming-row">
     <span class="result-date">27 jul 2026</span>
-    <span class="result-matchup">@ St. Louis Cardinals </span>
+    <span class="result-matchup"><span class="away-marker">@</span> St. Louis Cardinals </span>
     <span class="upcoming-time">7/27 - 7:45 PM EDT</span>
   </div><div class="upcoming-row">
     <span class="result-date">28 jul 2026</span>
-    <span class="result-matchup">@ St. Louis Cardinals </span>
+    <span class="result-matchup"><span class="away-marker">@</span> St. Louis Cardinals </span>
     <span class="upcoming-time">7/28 - 7:45 PM EDT</span>
   </div><div class="upcoming-row">
     <span class="result-date">29 jul 2026</span>
-    <span class="result-matchup">@ St. Louis Cardinals </span>
+    <span class="result-matchup"><span class="away-marker">@</span> St. Louis Cardinals </span>
     <span class="upcoming-time">7/29 - 7:45 PM EDT</span>
   </div><div class="upcoming-row">
     <span class="result-date">30 jul 2026</span>
-    <span class="result-matchup">@ St. Louis Cardinals </span>
+    <span class="result-matchup"><span class="away-marker">@</span> St. Louis Cardinals </span>
     <span class="upcoming-time">7/30 - 2:15 PM EDT</span>
   </div><div class="upcoming-row">
     <span class="result-date">31 jul 2026</span>
@@ -392,7 +396,7 @@
     <div class="result-row win">
     <span class="result-badge">V</span>
     <span class="result-date">13 abr 2025</span>
-    <span class="result-matchup">@ Philadelphia 76ers </span>
+    <span class="result-matchup"><span class="away-marker">@</span> Philadelphia 76ers </span>
     <span class="result-score">122&ndash;102</span>
   </div><div class="result-row win">
     <span class="result-badge">V</span>
@@ -407,12 +411,12 @@
   </div><div class="result-row loss">
     <span class="result-badge">D</span>
     <span class="result-date">08 abr 2025</span>
-    <span class="result-matchup">@ Cleveland Cavaliers </span>
+    <span class="result-matchup"><span class="away-marker">@</span> Cleveland Cavaliers </span>
     <span class="result-score">113&ndash;135</span>
   </div><div class="result-row win">
     <span class="result-badge">V</span>
     <span class="result-date">06 abr 2025</span>
-    <span class="result-matchup">@ Charlotte Hornets </span>
+    <span class="result-matchup"><span class="away-marker">@</span> Charlotte Hornets </span>
     <span class="result-score">131&ndash;117</span>
   </div>
     <h3>Proximos partidos</h3>
@@ -440,12 +444,12 @@
   </div><div class="result-row win">
     <span class="result-badge">V</span>
     <span class="result-date">16 abr 2025</span>
-    <span class="result-matchup">@ Seattle Kraken </span>
+    <span class="result-matchup"><span class="away-marker">@</span> Seattle Kraken </span>
     <span class="result-score">6&ndash;5</span>
   </div><div class="result-row win">
     <span class="result-badge">V</span>
     <span class="result-date">15 abr 2025</span>
-    <span class="result-matchup">@ Edmonton Oilers </span>
+    <span class="result-matchup"><span class="away-marker">@</span> Edmonton Oilers </span>
     <span class="result-score">5&ndash;0</span>
   </div><div class="result-row win">
     <span class="result-badge">V</span>
@@ -461,11 +465,11 @@
     <h3>Proximos partidos</h3>
     <div class="upcoming-row">
     <span class="result-date">01 oct 2026</span>
-    <span class="result-matchup">@ Colorado Avalanche </span>
+    <span class="result-matchup"><span class="away-marker">@</span> Colorado Avalanche </span>
     <span class="upcoming-time">9/30 - 10:00 PM EDT</span>
   </div><div class="upcoming-row">
     <span class="result-date">04 oct 2026</span>
-    <span class="result-matchup">@ San Jose Sharks </span>
+    <span class="result-matchup"><span class="away-marker">@</span> San Jose Sharks </span>
     <span class="upcoming-time">10/3 - 10:00 PM EDT</span>
   </div><div class="upcoming-row">
     <span class="result-date">07 oct 2026</span>
@@ -473,7 +477,7 @@
     <span class="upcoming-time">10/6 - 10:30 PM EDT</span>
   </div><div class="upcoming-row">
     <span class="result-date">11 oct 2026</span>
-    <span class="result-matchup">@ Vegas Golden Knights </span>
+    <span class="result-matchup"><span class="away-marker">@</span> Vegas Golden Knights </span>
     <span class="upcoming-time">10/10 - 10:00 PM EDT</span>
   </div><div class="upcoming-row">
     <span class="result-date">14 oct 2026</span>
