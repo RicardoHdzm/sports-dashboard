@@ -58,6 +58,15 @@ const TEAMS = [
     badgeTextColor: "#ffffff",
     competitions: [{ path: "basketball/nba", name: "NBA" }],
   },
+  {
+    key: "kings",
+    name: "Los Angeles Kings",
+    teamId: "8",
+    logo: "https://a.espncdn.com/i/teamlogos/nhl/500/la.png",
+    color: "#a2aaad",
+    badgeTextColor: "#111111",
+    competitions: [{ path: "hockey/nhl", name: "NHL" }],
+  },
 ];
 
 const BASE = "https://site.api.espn.com/apis/site/v2/sports";
@@ -132,6 +141,20 @@ function parseEvent({ event, competitionName }, team) {
     competitionName,
     rivalryLabel: findRivalry(team, rivalName),
   };
+}
+
+async function getSeasonStatus(team) {
+  const primaryCompetition = team.competitions[0];
+  try {
+    const data = await fetchJson(`${BASE}/${primaryCompetition.path}/teams/${team.teamId}/schedule`);
+    const seasonLabel = `${data.season?.name || ""} ${data.season?.displayName || ""}`.toLowerCase();
+    if (seasonLabel.includes("off season") || seasonLabel.includes("preseason")) return "not-started";
+    const now = new Date();
+    const hasStarted = (data.events || []).some((e) => new Date(e.date) <= now);
+    return hasStarted ? "started" : "not-started";
+  } catch {
+    return "not-started";
+  }
 }
 
 async function getStandingEntry(team) {
@@ -223,6 +246,8 @@ async function buildTeamCard(team, order) {
     proximos = `<p class="muted">No se pudo cargar.</p>`;
   }
 
+  const seasonStatus = await getSeasonStatus(team);
+
   try {
     const standing = await getStandingEntry(team);
     standingsHtml = standing
@@ -237,6 +262,7 @@ async function buildTeamCard(team, order) {
 
   return `
   <section class="card" data-order="${order}" data-updated="${lastUpdated}" style="--team-color: ${team.color}; --team-badge-text: ${team.badgeTextColor}">
+    <span class="status-dot ${seasonStatus}" title="${seasonStatus === "started" ? "Temporada en curso" : "Temporada aun no comienza"}"></span>
     <div class="card-header">
       <img class="logo" src="${team.logo}" alt="${team.name}" />
       <h2>${team.name}</h2>
@@ -323,12 +349,28 @@ async function main() {
   .sort-btn.active { color: #0a0a0b; background: #ffffff; border-color: #ffffff; }
   .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem; max-width: 1200px; margin: 0 auto; }
   .card {
+    position: relative;
     background: var(--card-bg);
     border: 1px solid var(--card-border);
     border-top: 5px solid var(--team-color);
     border-radius: 12px;
     padding: 1.5rem;
     box-shadow: 0 6px 14px -10px var(--team-color), 0 4px 12px rgba(0,0,0,0.5);
+  }
+  .status-dot {
+    position: absolute; top: .9rem; right: .9rem; width: 12px; height: 12px; border-radius: 50%;
+  }
+  .status-dot.started { background: var(--win); animation: pulse-started 1.6s infinite; }
+  .status-dot.not-started { background: var(--loss); animation: pulse-not-started 1.6s infinite; }
+  @keyframes pulse-started {
+    0% { box-shadow: 0 0 0 0 rgba(34,197,94,0.65); }
+    70% { box-shadow: 0 0 0 9px rgba(34,197,94,0); }
+    100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+  }
+  @keyframes pulse-not-started {
+    0% { box-shadow: 0 0 0 0 rgba(239,68,68,0.65); }
+    70% { box-shadow: 0 0 0 9px rgba(239,68,68,0); }
+    100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); }
   }
   .card-header { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 1.25rem; }
   .logo { width: 88px; height: 88px; object-fit: contain; margin-bottom: .6rem; }
