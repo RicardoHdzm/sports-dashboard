@@ -326,16 +326,19 @@ async function main() {
     min-height: 100vh;
   }
   h1 { text-align: center; margin: 0 0 .4rem; line-height: 1; }
-  .brand { display: inline-block; font-family: "Anton", "Arial Black", sans-serif; transform: skewX(-8deg); }
+  .brand {
+    display: inline-block; font-family: "Anton", "Arial Black", sans-serif; transform: skewX(-8deg);
+    font-size: clamp(3.5rem, 15vw, 7.5rem);
+  }
   .brand-main {
-    display: block; font-size: clamp(2.75rem, 11vw, 5rem); letter-spacing: .05em;
+    display: block; letter-spacing: .05em; margin-bottom: .18em;
   }
   .brand-main .solid { color: #ffffff; }
   .brand-main .hollow {
     color: transparent; -webkit-text-stroke: 0.5px #ffffff; text-stroke: 0.5px #ffffff;
   }
   .brand-sub {
-    display: block; margin-top: .6rem; font-size: 1rem; letter-spacing: .35em;
+    display: block; font-size: .2em; letter-spacing: .35em;
     color: #fff; padding-left: .35em;
     font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; font-weight: 500;
   }
