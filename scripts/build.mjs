@@ -181,18 +181,6 @@ async function getStandingEntry(team) {
   return null;
 }
 
-function computeStreak(finishedSortedDesc) {
-  if (!finishedSortedDesc.length) return null;
-  const type = finishedSortedDesc[0].result;
-  if (type !== "win" && type !== "loss") return null;
-  let count = 0;
-  for (const ev of finishedSortedDesc) {
-    if (ev.result === type) count++;
-    else break;
-  }
-  return { type, count };
-}
-
 function fmtDate(d) {
   return d.toLocaleDateString("es-MX", { day: "2-digit", month: "short", year: "numeric", timeZone: "UTC" });
 }
@@ -227,8 +215,7 @@ async function gatherTeamData(team, order) {
   let proximos = "";
   let standingsHtml = "";
   let lastUpdated = 0;
-  let nextMatchTs = null;
-  let finished = [];
+  let nextMatch = null;
   const showCompetition = team.competitions.length > 1;
   const rowLimit = showCompetition ? 8 : 5;
 
@@ -237,7 +224,7 @@ async function gatherTeamData(team, order) {
     const parsed = rawEvents.map((e) => parseEvent(e, team));
     const now = new Date();
 
-    finished = parsed
+    const finished = parsed
       .filter((e) => e.completed)
       .sort((a, b) => b.date - a.date)
       .slice(0, rowLimit);
@@ -248,7 +235,7 @@ async function gatherTeamData(team, order) {
       .sort((a, b) => a.date - b.date)
       .slice(0, rowLimit);
 
-    nextMatchTs = upcoming.length ? upcoming[0].date.getTime() : null;
+    nextMatch = upcoming.length ? upcoming[0] : null;
 
     resultados = finished.length
       ? finished.map((e) => renderResultRow(e, showCompetition)).join("")
@@ -263,32 +250,27 @@ async function gatherTeamData(team, order) {
   }
 
   const seasonStatus = await getSeasonStatus(team);
-  const streak = computeStreak(finished);
 
   try {
     const standing = await getStandingEntry(team);
-    const streakBadge = streak
-      ? ` <span class="streak-badge ${streak.type}">${streak.type === "win" ? "V" : "D"}${streak.count}</span>`
-      : "";
     standingsHtml = standing
       ? `<div class="standing-row">
           <span class="rank-badge">${standing.rank}º</span>
-          <span class="standing-detail">de ${standing.totalInGroup} en ${standing.groupName} (${standing.competitionName})${streakBadge}</span>
+          <span class="standing-detail">de ${standing.totalInGroup} en ${standing.groupName} (${standing.competitionName})</span>
         </div>`
       : `<p class="muted">Posicion no disponible.</p>`;
   } catch (err) {
     standingsHtml = `<p class="muted">No se pudo cargar (${err.message}).</p>`;
   }
 
-  return { team, order, lastUpdated, nextMatchTs, seasonStatus, standingsHtml, resultados, proximos };
+  return { team, order, lastUpdated, nextMatch, seasonStatus, standingsHtml, resultados, proximos };
 }
 
-function renderTeamCard(data, isNearest) {
-  const { team, order, lastUpdated, nextMatchTs, seasonStatus, standingsHtml, resultados, proximos } = data;
-  const countdownHtml =
-    isNearest && nextMatchTs
-      ? `<span class="countdown" data-target="${nextMatchTs}">Calculando...</span>`
-      : "";
+function renderTeamCard(data) {
+  const { team, order, lastUpdated, nextMatch, seasonStatus, standingsHtml, resultados, proximos } = data;
+  const countdownHtml = nextMatch
+    ? `<span class="countdown" data-target="${nextMatch.date.getTime()}">Calculando...</span>`
+    : "";
   return `
   <section class="card" data-order="${order}" data-updated="${lastUpdated}" style="--team-color: ${team.color}; --team-badge-text: ${team.badgeTextColor}">
     <span class="status-dot ${seasonStatus}" title="${seasonStatus === "started" ? "Temporada en curso" : "Temporada aun no comienza"}"></span>
@@ -313,16 +295,17 @@ async function main() {
     teamData.push(await gatherTeamData(TEAMS[i], i));
   }
 
-  let nearestKey = null;
-  let nearestTs = Infinity;
+  let nextUp = null;
   for (const d of teamData) {
-    if (d.nextMatchTs && d.nextMatchTs < nearestTs) {
-      nearestTs = d.nextMatchTs;
-      nearestKey = d.team.key;
+    if (d.nextMatch && (!nextUp || d.nextMatch.date < nextUp.match.date)) {
+      nextUp = { team: d.team, match: d.nextMatch };
     }
   }
+  const nextMatchBannerHtml = nextUp
+    ? `<p class="next-match">Proximo partido: <strong>${nextUp.team.name}</strong> vs <strong>${nextUp.match.rivalName}</strong> &mdash; ${nextUp.match.statusDetail}</p>`
+    : "";
 
-  const cards = teamData.map((d) => renderTeamCard(d, d.team.key === nearestKey));
+  const cards = teamData.map((d) => renderTeamCard(d));
 
   const now = new Date();
   const updatedAt = now.toLocaleString("es-MX", {
@@ -383,7 +366,8 @@ async function main() {
     color: #fff; padding-left: .35em;
     font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; font-weight: 500;
   }
-  .updated { text-align: center; color: var(--muted); font-size: .85rem; margin: .9rem 0 1.25rem; }
+  .next-match { text-align: center; color: var(--text); font-size: .95rem; margin: .9rem 0 0; }
+  .updated { text-align: center; color: var(--muted); font-size: .85rem; margin: .35rem 0 1.25rem; }
   .sort-bar { display: flex; justify-content: center; gap: .5rem; margin-bottom: 2rem; }
   .sort-btn {
     font-family: inherit; font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em;
@@ -421,14 +405,8 @@ async function main() {
   .league { margin-top: .35rem; font-size: .7rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); border: 1px solid currentColor; border-radius: 999px; padding: .15rem .6rem; text-align: center; }
   .countdown {
     display: block; width: fit-content; margin: 1.1rem auto 0; font-size: .75rem; font-weight: 700; letter-spacing: .03em;
-    color: #0a0a0b; background: #ffffff; border-radius: 999px; padding: .3rem .9rem;
+    color: var(--team-badge-text); background: var(--team-color); border-radius: 999px; padding: .3rem .9rem;
   }
-  .streak-badge {
-    display: inline-block; font-size: .72rem; font-weight: 800; border-radius: 4px;
-    padding: .05rem .35rem; color: #fff;
-  }
-  .streak-badge.win { background: var(--win); }
-  .streak-badge.loss { background: var(--loss); }
   .card h3 { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 1.1rem 0 .5rem; font-weight: 700; }
   .muted { color: var(--muted); font-size: .9rem; margin: 0; }
 
@@ -495,6 +473,7 @@ async function main() {
       <span class="brand-sub">SPORTS DASHBOARD</span>
     </span>
   </h1>
+  ${nextMatchBannerHtml}
   <p class="updated">Actualizado: ${updatedAt}</p>
   <div class="sort-bar">
     <button class="sort-btn active" data-sort="deporte">Deporte</button>
