@@ -31,17 +31,20 @@
     min-height: 100vh;
   }
   .ticker {
-    overflow: hidden; white-space: nowrap; background: rgba(255,255,255,0.06);
+    overflow: hidden; white-space: nowrap; background: rgba(0,0,0,0.5);
     border-bottom: 1px solid var(--card-border); padding: .55rem 0; margin: 0 -1rem 0;
   }
   .ticker-track {
-    display: inline-block; padding-left: 100%; font-size: .8rem; font-weight: 600; color: var(--text);
-    animation: ticker-scroll 16s linear infinite;
+    display: flex; width: max-content;
+    animation: ticker-scroll 60s linear infinite;
+  }
+  .ticker-copy {
+    font-size: .85rem; font-weight: 600; color: var(--text);
   }
   .ticker-track strong { color: #fff; }
   @keyframes ticker-scroll {
     from { transform: translateX(0); }
-    to { transform: translateX(-100%); }
+    to { transform: translateX(-50%); }
   }
   h1 { text-align: center; margin: 3rem 0 .4rem; line-height: 1; }
   .brand {
@@ -149,14 +152,14 @@
 </style>
 </head>
 <body>
-  <div class="ticker"><div class="ticker-track">Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT</div></div>
+  <div class="ticker"><div class="ticker-track"><span class="ticker-copy">Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; </span><span class="ticker-copy">Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; Proximo partido: <strong>Chicago Cubs</strong> vs <strong>St. Louis Cardinals</strong> &mdash; 7/27 - 7:45 PM EDT &nbsp;•&nbsp; </span></div></div>
   <h1>
     <span class="brand">
       <span class="brand-main"><span class="solid">ST</span><span class="hollow">RICK</span><span class="solid">EOUT</span></span>
       <span class="brand-sub">SPORTS DASHBOARD</span>
     </span>
   </h1>
-  <p class="updated" id="updatedAt" data-ts="1785115488800">Actualizado: ...</p>
+  <p class="updated" id="updatedAt" data-ts="1785115813919">Actualizado: ...</p>
   <div class="sort-bar">
     <button class="sort-btn active" data-sort="deporte">Deporte</button>
     <button class="sort-btn" data-sort="reciente">Más reciente</button>
