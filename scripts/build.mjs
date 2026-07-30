@@ -481,7 +481,7 @@ async function main() {
       var el = document.getElementById("updatedAt");
       var ts = Number(el.dataset.ts);
       var formatted = new Date(ts).toLocaleString("es-MX", {
-        day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit"
+        day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit", timeZone: "America/Mazatlan"
       });
       el.textContent = "Actualizado: " + formatted;
     })();
@@ -490,7 +490,7 @@ async function main() {
     (function () {
       document.querySelectorAll(".local-date").forEach(function (el) {
         var d = new Date(el.dataset.date);
-        el.textContent = d.toLocaleDateString("es-MX", { day: "2-digit", month: "short", year: "numeric" });
+        el.textContent = d.toLocaleDateString("es-MX", { day: "2-digit", month: "short", year: "numeric", timeZone: "America/Mazatlan" });
       });
     })();
   </script>
