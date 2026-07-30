@@ -181,10 +181,6 @@ async function getStandingEntry(team) {
   return null;
 }
 
-function fmtDate(d) {
-  return d.toLocaleDateString("es-MX", { day: "2-digit", month: "short", year: "numeric", timeZone: "UTC" });
-}
-
 const RESULT_LABEL = { win: "V", loss: "D", draw: "E" };
 
 function renderResultRow(ev, showCompetition) {
@@ -193,7 +189,7 @@ function renderResultRow(ev, showCompetition) {
   const compTag = showCompetition ? `<span class="comp-tag">${ev.competitionName}</span>` : "";
   return `<div class="result-row ${ev.result}${ev.rivalryLabel ? " rivalry" : ""}">
     <span class="result-badge">${RESULT_LABEL[ev.result]}</span>
-    <span class="result-date">${fmtDate(ev.date)}</span>
+    <span class="result-date local-date" data-date="${ev.date.toISOString()}"></span>
     <span class="result-matchup">${sede} ${ev.rivalName} ${rivalryTag}${compTag}</span>
     <span class="result-score">${ev.teamScore}&ndash;${ev.rivalScore}</span>
   </div>`;
@@ -204,7 +200,7 @@ function renderUpcomingRow(ev, showCompetition) {
   const rivalryTag = ev.rivalryLabel ? `<span class="rivalry-tag">★ ${ev.rivalryLabel}</span>` : "";
   const compTag = showCompetition ? `<span class="comp-tag">${ev.competitionName}</span>` : "";
   return `<div class="upcoming-row${ev.rivalryLabel ? " rivalry" : ""}">
-    <span class="result-date">${fmtDate(ev.date)}</span>
+    <span class="result-date local-date" data-date="${ev.date.toISOString()}"></span>
     <span class="result-matchup">${sede} ${ev.rivalName} ${rivalryTag}${compTag}</span>
     <span class="upcoming-time">${ev.statusDetail}</span>
   </div>`;
@@ -488,6 +484,14 @@ async function main() {
         day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit"
       });
       el.textContent = "Actualizado: " + formatted;
+    })();
+  </script>
+  <script>
+    (function () {
+      document.querySelectorAll(".local-date").forEach(function (el) {
+        var d = new Date(el.dataset.date);
+        el.textContent = d.toLocaleDateString("es-MX", { day: "2-digit", month: "short", year: "numeric" });
+      });
     })();
   </script>
   <script>
