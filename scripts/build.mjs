@@ -182,6 +182,15 @@ async function getStandingEntry(team) {
 }
 
 const RESULT_LABEL = { win: "V", loss: "D", draw: "E" };
+const MAZATLAN_TZ = "America/Mazatlan";
+
+function fmtDate(d) {
+  return d.toLocaleDateString("es-MX", { day: "2-digit", month: "short", year: "numeric", timeZone: MAZATLAN_TZ });
+}
+
+function fmtTime(d) {
+  return d.toLocaleTimeString("es-MX", { hour: "numeric", minute: "2-digit", timeZone: MAZATLAN_TZ });
+}
 
 function renderResultRow(ev, showCompetition) {
   const sede = ev.isTeamHome ? "vs" : '<span class="away-marker">@</span>';
@@ -189,7 +198,7 @@ function renderResultRow(ev, showCompetition) {
   const compTag = showCompetition ? `<span class="comp-tag">${ev.competitionName}</span>` : "";
   return `<div class="result-row ${ev.result}${ev.rivalryLabel ? " rivalry" : ""}">
     <span class="result-badge">${RESULT_LABEL[ev.result]}</span>
-    <span class="result-date local-date" data-date="${ev.date.toISOString()}"></span>
+    <span class="result-date">${fmtDate(ev.date)}</span>
     <span class="result-matchup">${sede} ${ev.rivalName} ${rivalryTag}${compTag}</span>
     <span class="result-score">${ev.teamScore}&ndash;${ev.rivalScore}</span>
   </div>`;
@@ -200,9 +209,9 @@ function renderUpcomingRow(ev, showCompetition) {
   const rivalryTag = ev.rivalryLabel ? `<span class="rivalry-tag">★ ${ev.rivalryLabel}</span>` : "";
   const compTag = showCompetition ? `<span class="comp-tag">${ev.competitionName}</span>` : "";
   return `<div class="upcoming-row${ev.rivalryLabel ? " rivalry" : ""}">
-    <span class="result-date local-date" data-date="${ev.date.toISOString()}"></span>
+    <span class="result-date">${fmtDate(ev.date)}</span>
     <span class="result-matchup">${sede} ${ev.rivalName} ${rivalryTag}${compTag}</span>
-    <span class="upcoming-time">${ev.statusDetail}</span>
+    <span class="upcoming-time">${fmtTime(ev.date)}</span>
   </div>`;
 }
 
@@ -299,7 +308,7 @@ async function main() {
   }
   const tickerHtml = nextUp
     ? (() => {
-        const msg = `Proximo partido: <strong>${nextUp.team.name}</strong> vs <strong>${nextUp.match.rivalName}</strong> &mdash; ${nextUp.match.statusDetail}`;
+        const msg = `Proximo partido: <strong>${nextUp.team.name}</strong> vs <strong>${nextUp.match.rivalName}</strong> &mdash; ${fmtDate(nextUp.match.date)}, ${fmtTime(nextUp.match.date)}`;
         const repeated = Array.from({ length: 10 }, () => msg).join(" &nbsp;•&nbsp; ");
         return `<div class="ticker"><div class="ticker-track"><span class="ticker-copy">${repeated} &nbsp;•&nbsp; </span><span class="ticker-copy">${repeated} &nbsp;•&nbsp; </span></div></div>`;
       })()
@@ -308,7 +317,9 @@ async function main() {
   const cards = teamData.map((d) => renderTeamCard(d));
 
   const now = new Date();
-  const updatedAtTs = now.getTime();
+  const updatedAt = now.toLocaleString("es-MX", {
+    day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit", timeZone: MAZATLAN_TZ,
+  });
 
   const html = `<!doctype html>
 <html lang="es">
@@ -468,7 +479,7 @@ async function main() {
       <span class="brand-sub">SPORTS DASHBOARD</span>
     </span>
   </h1>
-  <p class="updated" id="updatedAt" data-ts="${updatedAtTs}">Actualizado: ...</p>
+  <p class="updated">Actualizado: ${updatedAt}</p>
   <div class="sort-bar">
     <button class="sort-btn active" data-sort="deporte">Deporte</button>
     <button class="sort-btn" data-sort="reciente">Más reciente</button>
@@ -476,24 +487,6 @@ async function main() {
   <div class="grid" id="grid">
     ${cards.join("\n")}
   </div>
-  <script>
-    (function () {
-      var el = document.getElementById("updatedAt");
-      var ts = Number(el.dataset.ts);
-      var formatted = new Date(ts).toLocaleString("es-MX", {
-        day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit", timeZone: "America/Mazatlan"
-      });
-      el.textContent = "Actualizado: " + formatted;
-    })();
-  </script>
-  <script>
-    (function () {
-      document.querySelectorAll(".local-date").forEach(function (el) {
-        var d = new Date(el.dataset.date);
-        el.textContent = d.toLocaleDateString("es-MX", { day: "2-digit", month: "short", year: "numeric", timeZone: "America/Mazatlan" });
-      });
-    })();
-  </script>
   <script>
     (function () {
       var els = document.querySelectorAll(".countdown");
