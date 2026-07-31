@@ -15,6 +15,7 @@ const TEAMS = [
       { path: "soccer/uefa.champions", name: "Champions League" },
       { path: "soccer/esp.copa_del_rey", name: "Copa del Rey" },
       { path: "soccer/esp.super_cup", name: "Supercopa de España" },
+      { path: "soccer/club.friendly", name: "Amistoso" },
     ],
     rivals: [
       { match: "barcelona", label: "Clásico" },
