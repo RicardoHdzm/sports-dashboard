@@ -70,6 +70,26 @@ const TEAMS = [
   },
 ];
 
+const MCLAREN = {
+  key: "mclaren",
+  name: "McLaren",
+  logo: "assets/teams/mclaren.png",
+  color: "#ff8700",
+  badgeTextColor: "#111111",
+  badgeLabel: "F1",
+  drivers: ["Lando Norris", "Oscar Piastri"],
+};
+
+const SINNER = {
+  key: "sinner",
+  name: "Jannik Sinner",
+  logo: "assets/teams/sinner.png",
+  color: "#1d4ed8",
+  badgeTextColor: "#ffffff",
+  badgeLabel: "ATP",
+  athleteId: "3623",
+};
+
 const BASE = "https://site.api.espn.com/apis/site/v2/sports";
 const STANDINGS_BASE = "https://site.api.espn.com/apis/v2/sports";
 
@@ -197,11 +217,12 @@ function renderResultRow(ev, showCompetition) {
   const sede = ev.isTeamHome ? "vs" : '<span class="away-marker">@</span>';
   const rivalryTag = ev.rivalryLabel ? `<span class="rivalry-tag">★ ${ev.rivalryLabel}</span>` : "";
   const compTag = showCompetition ? `<span class="comp-tag">${ev.competitionName}</span>` : "";
+  const score = ev.rivalScore !== "" ? `${ev.teamScore}&ndash;${ev.rivalScore}` : ev.teamScore;
   return `<div class="result-row ${ev.result}${ev.rivalryLabel ? " rivalry" : ""}">
     <span class="result-badge">${RESULT_LABEL[ev.result]}</span>
     <span class="result-date">${fmtDate(ev.date)}</span>
     <span class="result-matchup">${sede} ${ev.rivalName} ${rivalryTag}${compTag}</span>
-    <span class="result-score">${ev.teamScore}&ndash;${ev.rivalScore}</span>
+    <span class="result-score">${score}</span>
   </div>`;
 }
 
@@ -295,11 +316,197 @@ function renderTeamCard(data) {
   </section>`;
 }
 
+async function gatherMcLarenData(order) {
+  let resultados = "";
+  let proximos = "";
+  let standingsHtml = "";
+  let lastUpdated = 0;
+  let nextMatch = null;
+  let seasonStatus = "not-started";
+
+  try {
+    const year = new Date().getUTCFullYear();
+    const results = await Promise.allSettled([
+      fetchJson(`${BASE}/racing/f1/scoreboard?dates=${year}`),
+      fetchJson(`${BASE}/racing/f1/scoreboard?dates=${year - 1}`),
+    ]);
+    const eventsById = new Map();
+    for (const r of results) {
+      if (r.status !== "fulfilled") continue;
+      for (const event of r.value.events || []) eventsById.set(event.id, event);
+    }
+
+    const now = new Date();
+    const parsed = [...eventsById.values()].map((event) => {
+      const comp = event.competitions[0];
+      const completed = !!comp.status?.type?.completed;
+      const mclarenDrivers = comp.competitors
+        .filter((c) => MCLAREN.drivers.includes(c.athlete?.displayName))
+        .sort((a, b) => Number(a.order) - Number(b.order));
+      const bestOrder = mclarenDrivers.length ? Number(mclarenDrivers[0].order) : null;
+      const positions = mclarenDrivers.map((d) => `P${d.order}`).join(" · ");
+
+      let result = null;
+      if (completed && bestOrder != null) {
+        result = bestOrder <= 3 ? "win" : bestOrder <= 10 ? "draw" : "loss";
+      }
+
+      return {
+        date: new Date(event.date),
+        completed,
+        statusDetail: "",
+        isTeamHome: true,
+        rivalName: event.shortName || event.name,
+        teamScore: positions,
+        rivalScore: "",
+        result,
+        competitionName: "F1",
+        rivalryLabel: null,
+      };
+    });
+
+    const finished = parsed
+      .filter((e) => e.completed)
+      .sort((a, b) => b.date - a.date)
+      .slice(0, 5);
+    lastUpdated = finished.length ? finished[0].date.getTime() : 0;
+    seasonStatus = finished.length ? "started" : "not-started";
+
+    const upcoming = parsed
+      .filter((e) => !e.completed && e.date >= now)
+      .sort((a, b) => a.date - b.date)
+      .slice(0, 5);
+    nextMatch = upcoming.length ? upcoming[0] : null;
+
+    resultados = finished.length
+      ? finished.map((e) => renderResultRow(e, false)).join("")
+      : `<p class="muted">Sin resultados recientes disponibles.</p>`;
+    proximos = upcoming.length
+      ? upcoming.map((e) => renderUpcomingRow(e, false)).join("")
+      : `<p class="muted">Calendario aun no publicado.</p>`;
+  } catch (err) {
+    resultados = `<p class="muted">No se pudo cargar (${err.message}).</p>`;
+    proximos = `<p class="muted">No se pudo cargar.</p>`;
+  }
+
+  try {
+    const standings = await fetchJson(`${STANDINGS_BASE}/racing/f1/standings`);
+    const constructors = standings.children?.find((c) => c.name === "Constructor Standings");
+    const entries = constructors?.standings?.entries || [];
+    const idx = entries.findIndex((e) => e.team?.displayName === "McLaren");
+    standingsHtml =
+      idx !== -1
+        ? `<div class="standing-row">
+            <span class="rank-badge">${idx + 1}º</span>
+            <span class="standing-detail">de ${entries.length} en Constructor Standings (F1)</span>
+          </div>`
+        : `<p class="muted">Posicion no disponible.</p>`;
+  } catch (err) {
+    standingsHtml = `<p class="muted">No se pudo cargar (${err.message}).</p>`;
+  }
+
+  return { team: MCLAREN, order, lastUpdated, nextMatch, seasonStatus, standingsHtml, resultados, proximos };
+}
+
+async function gatherSinnerData(order) {
+  let resultados = "";
+  let proximos = "";
+  let standingsHtml = "";
+  let lastUpdated = 0;
+  let nextMatch = null;
+
+  try {
+    const year = new Date().getUTCFullYear();
+    const log = await fetchJson(
+      `https://sports.core.api.espn.com/v2/sports/tennis/leagues/atp/seasons/${year}/athletes/${SINNER.athleteId}/eventlog?lang=en&region=us`
+    );
+    const items = log.events?.items || [];
+    const competitions = await Promise.allSettled(items.map((it) => fetchJson(it.competition.$ref)));
+    const eventNameCache = new Map();
+
+    async function getEventName(ref) {
+      if (eventNameCache.has(ref)) return eventNameCache.get(ref);
+      try {
+        const ev = await fetchJson(ref);
+        const name = ev.shortName || ev.name || "";
+        eventNameCache.set(ref, name);
+        return name;
+      } catch {
+        return "";
+      }
+    }
+
+    const parsed = [];
+    for (let i = 0; i < items.length; i++) {
+      const compResult = competitions[i];
+      if (compResult.status !== "fulfilled") continue;
+      const comp = compResult.value;
+      const sinnerC = comp.competitors.find((c) => c.id === SINNER.athleteId);
+      const oppC = comp.competitors.find((c) => c.id !== SINNER.athleteId);
+      if (!sinnerC || !oppC) continue;
+      const completed = !!items[i].played;
+      const tournamentName = await getEventName(items[i].event.$ref);
+      parsed.push({
+        date: new Date(comp.date),
+        completed,
+        statusDetail: "",
+        isTeamHome: true,
+        rivalName: oppC.name || "Rival",
+        teamScore: "",
+        rivalScore: "",
+        result: completed ? (sinnerC.winner ? "win" : "loss") : null,
+        competitionName: tournamentName,
+        rivalryLabel: null,
+      });
+    }
+
+    const now = new Date();
+    const finished = parsed
+      .filter((e) => e.completed)
+      .sort((a, b) => b.date - a.date)
+      .slice(0, 5);
+    lastUpdated = finished.length ? finished[0].date.getTime() : 0;
+
+    const upcoming = parsed
+      .filter((e) => !e.completed && e.date >= now)
+      .sort((a, b) => a.date - b.date)
+      .slice(0, 5);
+    nextMatch = upcoming.length ? upcoming[0] : null;
+
+    resultados = finished.length
+      ? finished.map((e) => renderResultRow(e, true)).join("")
+      : `<p class="muted">Sin resultados recientes disponibles.</p>`;
+    proximos = upcoming.length
+      ? upcoming.map((e) => renderUpcomingRow(e, true)).join("")
+      : `<p class="muted">Calendario aun no publicado.</p>`;
+  } catch (err) {
+    resultados = `<p class="muted">No se pudo cargar (${err.message}).</p>`;
+    proximos = `<p class="muted">No se pudo cargar.</p>`;
+  }
+
+  try {
+    const rankings = await fetchJson(`${BASE}/tennis/atp/rankings`);
+    const entry = rankings.rankings?.[0]?.ranks?.find((r) => String(r.athlete?.id) === SINNER.athleteId);
+    standingsHtml = entry
+      ? `<div class="standing-row">
+          <span class="rank-badge">${entry.current}º</span>
+          <span class="standing-detail">Ranking ATP &middot; ${entry.points} pts</span>
+        </div>`
+      : `<p class="muted">Ranking no disponible.</p>`;
+  } catch (err) {
+    standingsHtml = `<p class="muted">No se pudo cargar (${err.message}).</p>`;
+  }
+
+  return { team: SINNER, order, lastUpdated, nextMatch, seasonStatus: "started", standingsHtml, resultados, proximos };
+}
+
 async function main() {
   const teamData = [];
   for (let i = 0; i < TEAMS.length; i++) {
     teamData.push(await gatherTeamData(TEAMS[i], i));
   }
+  teamData.push(await gatherMcLarenData(TEAMS.length));
+  teamData.push(await gatherSinnerData(TEAMS.length + 1));
 
   let nextUp = null;
   for (const d of teamData) {
