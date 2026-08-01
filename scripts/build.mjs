@@ -340,7 +340,7 @@ async function gatherMcLarenData(order) {
     const parsed = [...eventsById.values()].map((event) => {
       const comp = event.competitions[0];
       const completed = !!comp.status?.type?.completed;
-      const mclarenDrivers = comp.competitors
+      const mclarenDrivers = (comp.competitors || [])
         .filter((c) => MCLAREN.drivers.includes(c.athlete?.displayName))
         .sort((a, b) => Number(a.order) - Number(b.order));
       const bestOrder = mclarenDrivers.length ? Number(mclarenDrivers[0].order) : null;
